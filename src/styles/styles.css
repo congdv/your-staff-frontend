@@ -1,0 +1,58 @@
+.datepickerWrap,
+.datepickerWrap > div.react-datepicker-wrapper, 
+.datepickerWrap > div > div.react-datepicker__input-container
+.datepickerWrap > div > div.react-datepicker__input-container input {
+   width: 100%;
+   margin: 0 0.5rem 0 0.2rem;
+   text-align: center;
+   display: block;
+}
+.col-centered {
+  display: flex;
+  justify-content: center;
+}
+.statusBar {
+  padding-top: 1.2rem;
+}
+.icon-btn{
+  background: none;
+  border: none;
+  color: DodgerBlue;
+  font-size: 16px;
+  cursor: pointer;
+}
+.icon-btn:hover,.icon-btn:active {
+  background: none;
+  color: #9AC4F8;
+  border: none;
+}
+.icon-btn:link, .icon-btn:visited, .icon-btn:focus {
+  background: none;
+  color: DodgerBlue;
+  border: none;
+  outline: none;
+}
+
+table td, table th {
+  text-align: center;
+}
+.login-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  
+}
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.sidebar {
+  background-color: #1A263A;
+}

@@ -1,8 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Table, Button, Form, Row, Col, InputGroup , Modal} from "react-bootstrap"
 import {connect} from "react-redux"
+import {FaEdit} from "react-icons/fa"
 
 import {updateIncomeOfStaffAction, addNewIncomeOfStaffAction } from "../reducers/staffReducer"
+import {updateIncomesTotalLocalAction} from "../reducers/incomeTotalReducer"
 
 const AmountsTable = (props) => {
   const removeAmount = (index) => {
@@ -44,6 +46,8 @@ const IncomeModal = (props) => {
   const [amount, setAmount] = useState("")
   const [amounts, setAmounts] = useState(props.amounts)
   const [validated, setValidated] = useState(false)
+  
+  useEffect(() => setAmounts(props.amounts),[props.amounts])
   const addAmount = () => {
     if(isNaN(amount) || amount === ""){
       setValidated(true)
@@ -56,26 +60,35 @@ const IncomeModal = (props) => {
       date: props.day,
       amount: amount
     }
-    console.log(props.date,"------date----------")
+    
     props.addNewIcomeOfStaff(props.staff._id,data)
+    props.updateTotalIncomes(props.staff, amount, props.date)
     setAmount("")
 
   }
 
   const setToAmounts = (value) => {
+    //Get total before removing
+    const beforeRemovingTotal = amounts.reduce((a,b) => a + b, 0)
+    //Get total after removing
+    const afterRemovingTotal = value.reduce((a,b) => a + b, 0)
+    //Get different to compare
+    const differentTotal = afterRemovingTotal - beforeRemovingTotal // Expected to negative number
+
     setAmounts(value)
     const data = {
       date: props.day,
       amounts: value,
     }
     props.updateIncomeOfStaff(props.staff._id, data)
+    props.updateTotalIncomes(props.staff, differentTotal, props.date)
   }
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button variant="primary" onClick={ handleShow }>Modal</Button>
+      <button className="icon-btn float-right" onClick={ handleShow } ><FaEdit/></button>
       <Modal show={show} onHide={handleClose} centered>
 
         <Modal.Header closeButton>
@@ -114,6 +127,13 @@ const IncomeModal = (props) => {
   )
 }
 
+const mapStateToPros = (state) => {
+  return {
+    date: state.date,
+    staffs: state.staff
+  }
+}
+
 const mapDispatchToPros = (dispatch) => {
   return {
     updateIncomeOfStaff: (id, data) => {
@@ -121,8 +141,11 @@ const mapDispatchToPros = (dispatch) => {
     },
     addNewIcomeOfStaff: (id, data) => {
       dispatch(addNewIncomeOfStaffAction(id,data))
+    },
+    updateTotalIncomes: (staff, amount,date) => {
+      dispatch(updateIncomesTotalLocalAction(staff, amount, date))
     }
   }
 }
 
-export default connect(null,mapDispatchToPros)(IncomeModal)
+export default connect(mapStateToPros,mapDispatchToPros)(IncomeModal)

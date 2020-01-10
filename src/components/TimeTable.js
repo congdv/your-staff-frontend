@@ -1,47 +1,41 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import Moment from "react-moment"
 import {Table} from "react-bootstrap"
 import {connect} from "react-redux"
 import moment from "moment"
 
 import IncomeModal from "./IncomeModal"
-import {updateDisplayStaffsAction} from "../reducers/staffReducer"
-
-const generateDaysOfWeek = (day) => {
-  let week = []
-  let today = day
-  today.setDate(today.getDate() - today.getDay() + 1)
-  for(let day = 0; day < 7; day++) {
-    week.push(new Date(today))
-    //Move next day
-    today.setDate(today.getDate() + 1)
-  }
-
-  return week
-}
+import {updateDisplayStaffsAction, getAllActiveStaffsAction} from "../reducers/staffReducer"
+import {initializeIncomesTotalAction} from "../reducers/incomeTotalReducer"
 
 const getIncomeOfDay = (day, incomeOfDays,staff) => {
   let total = "$0"
   let amounts = []
   if(incomeOfDays !== undefined){
     const incomeOfDay = incomeOfDays.find(incomePerDay => moment(incomePerDay.date).isSame(day,"day"))
-    if(incomeOfDay) {
+    if(incomeOfDay && incomeOfDay.amounts) {
           total = `$${incomeOfDay.amounts.reduce((a,b)=> a+b,0)}`
           amounts = incomeOfDay.amounts
+          return (
+            <>
+              <span>{total}</span>
+              <IncomeModal amounts={amounts} day={day} staff={staff}/>
+            </>)
     }
   }
   return (
   <>
-    {total}
+    <span>{total}</span>
     <IncomeModal amounts={amounts} day={day} staff={staff}/>
   </>)
 }
 
 const TimeTable = (props) => {
-  const [days, setDays] = useState(generateDaysOfWeek(props.date))
 
   const hook = () => {
-    props.fetchedStaffs()
+    props.allActiveStaffs()
+    props.fetchedStaffs(props.date)
+    props.initIncomesTotal(props.date)
   }
   useEffect(hook,[])
 
@@ -49,15 +43,21 @@ const TimeTable = (props) => {
     return null
   }
 
-  console.log("Time week",props.week)
+  const getTotalOfStaff = (staff) => {
+    const totals = props.totals.find(totalOfstaff => totalOfstaff._id === staff._id)
+    if(totals) {
+      return totals.totalOfWeek
+    }
+    return 0
+  }
+
 
   return (
-    <div>
-      <h2>Staff</h2>
+    <div className="mt-3">
       <Table bordered responsive >
-        <thead>
+        <thead className="thead-light">
           <tr>
-            <th>Staff</th>
+            <th >Staff</th>
             {
               props.week.map(day =>
                 <th key={day}>
@@ -66,6 +66,7 @@ const TimeTable = (props) => {
                 </th>
               )
             }
+            <th>Total Incomes</th>
           </tr>
         </thead>
         <tbody>
@@ -73,12 +74,28 @@ const TimeTable = (props) => {
             props.allStaffs.map(
               staff => (
                 <tr key={staff._id}>
-                  <td >{staff.firstName}</td>
-                  {props.week.map(day => 
-                    <td key={day}> 
-                      {getIncomeOfDay(day, staff.incomeOfDays,staff)}
-                      
-                    </td>)}
+                  <td >{staff.firstName + " " +staff.lastName}</td>
+                  {props.week.map(day => {
+                    if(moment(day).isSame(new Date(),"day")) {
+                      return (
+                        <td key={day} style={{backgroundColor:"#e9ecef", color:"#000"}}> 
+                          {getIncomeOfDay(day, staff.incomeOfDays,staff)}
+                        </td>
+                      )
+                    }
+                    return (
+                      <td key={day}> 
+                        {getIncomeOfDay(day, staff.incomeOfDays,staff)}
+                      </td>
+                    )
+                  }
+                    
+                    )}
+                  <td> $
+                    {
+                      getTotalOfStaff(staff)
+                    }
+                  </td>
                 </tr>
               )
             )
@@ -94,7 +111,6 @@ const staffsToShow = (staffs) => {
   if(staffs === undefined) {
     return staffs
   }
-  console.log(staffs,"------------")
   const newStaffs =  staffs.sort((firstStaff, secondStaff) => {
     if(secondStaff.firstName > firstStaff.firstName) {
       return -1
@@ -104,7 +120,6 @@ const staffsToShow = (staffs) => {
     }
     return 0
   })
-  console.log(newStaffs,"----")
   return newStaffs
 }
 
@@ -113,13 +128,20 @@ const mapStateToProps = (state) => {
   return {
     allStaffs:staffsToShow(state.staff),
     date: state.date,
-    week: state.week
+    week: state.week,
+    totals: state.totals
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchedStaffs: () => {
-      dispatch(updateDisplayStaffsAction())
+    allActiveStaffs : () => {
+      dispatch(getAllActiveStaffsAction())
+    },
+    fetchedStaffs: (date) => {
+      dispatch(updateDisplayStaffsAction(date))
+    },
+    initIncomesTotal: (date) => {
+      dispatch(initializeIncomesTotalAction(date))
     }
   }
 }

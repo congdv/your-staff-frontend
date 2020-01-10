@@ -1,23 +1,32 @@
-import React, { useEffect} from 'react';
+import React, { useEffect} from 'react'
 import {connect} from "react-redux"
 
 import staffService from "./services/staffs"
 import incomeOfStaffService from "./services/incomeOfStaff"
-import TimeTable from "./components/TimeTable";
 import Login from "./components/Login"
-import Logout from './components/Logout';
-import NewStaff from './components/NewStaff';
+import NavBar from "./components/NavBar"
 
 import {loginAction} from "./reducers/loginReducer"
-import {initializeStaffsAction} from "./reducers/staffReducer"
-import DateOfWeek from "./components/DateOfWeek"
+import {getAllActiveStaffsAction} from "./reducers/staffReducer"
+import SideBar from './components/SideBar'
+
+
+const Header = () => {
+  return (
+    <>
+      <NavBar/>
+      <SideBar/>
+    </>
+  )
+}
+
 
 const App = (props) => {
 
   const hook = () => {
     const loggedUserJSON = window.localStorage.getItem("userToken")
     if(loggedUserJSON) {
-      props.allStaffs()
+    
       const user = JSON.parse(loggedUserJSON)
       staffService.setToken(user.token)
       incomeOfStaffService.setToken(user.token)
@@ -29,14 +38,9 @@ const App = (props) => {
   return (
     <div>
       {!props.user ?  <Login/> : 
-        <div>
-          <Logout/>
-          <NewStaff/>
-          <div>
-            <DateOfWeek/>
-          </div>
-          <TimeTable/>
-        </div>
+      <>
+        <Header/>
+      </>
       }
     </div>
   )
@@ -49,8 +53,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    allStaffs : () => {
-      dispatch(initializeStaffsAction())
+    allActiveStaffs : () => {
+      dispatch(getAllActiveStaffsAction())
     },
     login: (user) => {
       dispatch(loginAction(user))

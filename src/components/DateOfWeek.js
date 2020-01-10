@@ -2,39 +2,45 @@ import DatePicker from "react-datepicker"
 import React, {useState} from "react"
 import {connect} from "react-redux"
 import "react-datepicker/dist/react-datepicker.css"
+import {FaAngleDoubleLeft, FaAngleDoubleRight} from "react-icons/fa"
 
 import {selectingDateAction} from "../reducers/selectedDateReducer"
 import {selectingWeekAction} from "../reducers/selectedWeekReducer"
-import { Button } from "react-bootstrap"
+import {updateDisplayStaffsAction} from "../reducers/staffReducer"
+import {updateIncomesTotalAction} from "../reducers/incomeTotalReducer"
+import { Button, Row, Col} from "react-bootstrap"
 import moment from "moment"
+
 
 const DateOfWeek = (props) => {
   const [startDate, setStartDate] = useState(new Date())
   const selectingDate = (date) => {
     setStartDate(date)
     props.selectWeek(date)
-    // props.selectDate(date)
+    props.selectDate(date)
+    props.fetchedStaffs(date)
+    props.updateTotalIncomes(date)
     
   }
   const previousWeek = () => {
     const day = moment(startDate).subtract(7,"days")
-    console.log(day)
-    selectingDate(day._d)
+    selectingDate(day.toDate())
   }
   const nextWeek = () => {
     const day = moment(startDate).add(7,"days")
-    console.log(day)
-    selectingDate(day._d)
+    selectingDate(day.toDate())
   }
-  console.log(startDate,"selecting ------")
   return (
-    <div>
-      <Button variant="outline-info" onClick={previousWeek}>Previous Week</Button>
+    <div className="col-centered">
+      <Button onClick={previousWeek}><FaAngleDoubleLeft/></Button>
+      <Button onClick={() => selectingDate(new Date())} className="ml-1 mr-1">Today</Button>
       <DatePicker
+      todayButton="Today"
       selected={startDate}
       onChange= {date => selectingDate(date)}
+      className="form-control"
       dateFormat="MMMM dd, yyyy"/>
-      <Button variant="outline-info" onClick={nextWeek}>Next Week</Button>
+      <Button onClick={nextWeek} className="ml-1"><FaAngleDoubleRight/></Button>
     </div>
   )
 }
@@ -52,6 +58,12 @@ const mapDispatchToPros = (dispatch) => {
     },
     selectWeek: (date) => {
       dispatch(selectingWeekAction(date))
+    },
+    fetchedStaffs: (date) => {
+      dispatch(updateDisplayStaffsAction(date))
+    },
+    updateTotalIncomes: (date) => {
+      dispatch(updateIncomesTotalAction(date))
     }
   }
 }

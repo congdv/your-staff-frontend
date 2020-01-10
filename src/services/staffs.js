@@ -8,7 +8,18 @@ const setToken = newToken => {
 }
 
 const getAll = async () => {
-  const response = await axios.get(baseURL)
+
+  const config = {
+    headers: { Authorization: token }
+  }
+  const response = await axios.get(baseURL,config)
+  return response.data
+}
+const getAllActiveStaffs = async() => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  const response = await axios.get(`${baseURL}/active`,config)
   return response.data
 }
 
@@ -24,10 +35,25 @@ const getAllStaffInDateRange = async (rangeDate) => {
   const config = {
     headers: { Authorization: token }
   }
-  console.log(token,"token")
+  console.log("Range Date", rangeDate)
   const response = await axios.post(`${baseURL}/incomes`, rangeDate, config)
+  return response.data
+}
+const deactiveStaff = async (id) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  const response = await axios.put(`${baseURL}/${id}/deactive`,null,config)
+  return response.data
+}
+
+const activeStaff = async (id) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  const response = await axios.put(`${baseURL}/${id}/active`,null,config)
   return response.data
 }
 
 
-export default { setToken, getAll, create, getAllStaffInDateRange }
+export default { setToken, getAll, getAllActiveStaffs, create, getAllStaffInDateRange, deactiveStaff, activeStaff }

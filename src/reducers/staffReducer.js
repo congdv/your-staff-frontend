@@ -1,6 +1,8 @@
 import staffService from "../services/staffs"
 import incomeService from "../services/incomeOfStaff"
 
+import moment from "moment"
+
 const updateDateofStaffs = (oldDataStaff, newDataStaff) => {
   const restStaff = oldDataStaff.filter( oldStaff => !newDataStaff.find(newStaff => newStaff._id === oldStaff._id))
   return [...newDataStaff,...restStaff]
@@ -11,7 +13,7 @@ const updateIncomeOfStaff = (staffs, newIncomeOfDay) => {
     staff => {
       if(staff._id === newIncomeOfDay.staff) {
         staff.incomeOfDays = staff.incomeOfDays.map(incomeOfDay => {
-          if(incomeOfDay.id === newIncomeOfDay.id) {
+          if(incomeOfDay._id === newIncomeOfDay._id) {
             return newIncomeOfDay
           }
           return incomeOfDay
@@ -29,8 +31,9 @@ const addNewIncomeOfStaff = (staffs, newIncomeOfDay) => {
     staff => {
       if(staff._id === newIncomeOfDay.staff) {
         let foundDate = false
+        
         staff.incomeOfDays = staff.incomeOfDays.map(incomeOfDay => {
-          if(incomeOfDay.id === newIncomeOfDay.id) {
+          if(incomeOfDay._id === newIncomeOfDay._id) {
             foundDate = true
             return newIncomeOfDay
           }
@@ -40,11 +43,13 @@ const addNewIncomeOfStaff = (staffs, newIncomeOfDay) => {
         if(!foundDate){
           staff.incomeOfDays = staff.incomeOfDays.concat(newIncomeOfDay)
         }
+        staff.incomeOfDays = staff.incomeOfDays.concat(newIncomeOfDay)
         return staff
       }
       return staff
     }
   )
+  console.log(newStaffs,"new")
   return newStaffs
 }
 
@@ -54,14 +59,18 @@ const staffReducer = (state=[], action) => {
       return [...state, action.data]
     case "INIT_STAFFS":
       return action.data
-    case "UPDATE_SINGLE_STAFF":
-      return ""
+    case "GET_ACTIVE_STAFFS":
+      return action.data
     case "UPDATE_INCOME_OF_STAFF":
       return updateIncomeOfStaff(state,action.data)
     case "ADD_NEW_INCOME_OF_STAFF":
       return addNewIncomeOfStaff(state,action.data)
     case "UPDATE_DISPLAY_STAFFS":
       return updateDateofStaffs(state,action.data)
+    case "DEACTIVE_STAFF":
+      return state.map(staff => staff._id === action.data._id ? action.data : staff)
+    case "ACTIVE_STAFF":
+      return state.map(staff => staff._id === action.data._id ? action.data : staff)
     default:
       return state
   }
@@ -76,6 +85,15 @@ export const initializeStaffsAction = () => {
     })
   }
 }
+export const getAllActiveStaffsAction = () => {
+  return async dispatch => {
+    const staffs = await staffService.getAllActiveStaffs()
+    dispatch({
+      type: "GET_ACTIVE_STAFFS",
+      data: staffs
+    })
+  }
+}
 export const newStaffAction = (newObj) => {
   return async dispatch => {
     const savedStaff = await staffService.create(newObj)
@@ -86,27 +104,31 @@ export const newStaffAction = (newObj) => {
     })
   }
 }
-
-
-const generateDaysOfWeek = (day) => {
-  let week = []
-  let today = day
-  today.setDate(today.getDate() - today.getDay() + 1)
-  for(let day = 0; day < 7; day++) {
-    week.push(new Date(today))
-    //Move next day
-    today.setDate(today.getDate() + 1)
+export const deactiveStaffAction = (id) => {
+  return async dispatch => {
+    const deactivedStaff = await staffService.deactiveStaff(id)
+    dispatch({
+      type: "DEACTIVE_STAFF",
+      data: deactivedStaff
+    })
   }
-
-  return week
 }
 
-export const updateDisplayStaffsAction = () => {
+export const activeStaffAction = (id) => {
   return async dispatch => {
-    const week = generateDaysOfWeek(new Date())
+    const activedStaff = await staffService.activeStaff(id)
+    dispatch({
+      type: "ACTIVE_STAFF",
+      data: activedStaff
+    })
+  }
+}
+
+export const updateDisplayStaffsAction = (today) => {
+  return async dispatch => {
     const dateRange = {
-      fromDate: week[0],
-      toDate: week[6]
+      fromDate: moment(today).startOf("isoWeek"),
+      toDate: moment(today).endOf("isoWeek")
     }
     const fetchedStaffs = await staffService.getAllStaffInDateRange(dateRange)
     dispatch({
@@ -118,7 +140,6 @@ export const updateDisplayStaffsAction = () => {
 
 export const updateIncomeOfStaffAction = (id,data) => {
   return async dispatch => {
-    console.log("---------",id,data)
     const updateIncomeOfStaff = await incomeService.update(id,data)
     console.log(updateIncomeOfStaff,"hahah")
     dispatch({

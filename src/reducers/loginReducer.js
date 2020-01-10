@@ -16,5 +16,11 @@ export const loginAction = (user) => {
     })
   }
 }
-
+export const logoutAction = () => {
+  return dispatch => {
+    dispatch({
+      type: "USER_LOGOUT"
+    })
+  }
+}
 export default loginReducer

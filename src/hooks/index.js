@@ -18,3 +18,15 @@ export const useField = (type) => {
     reset
   }
 }
+
+export const useDate = () => {
+  const [date, setDate] = useState(new Date())
+
+  const selectingDate = (date) => {
+    setDate(date)
+  }
+  return {
+    date,
+    selectingDate
+  }
+}

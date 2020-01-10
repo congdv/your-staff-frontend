@@ -1,4 +1,5 @@
 import axios from "axios"
+
 const baseURL = "/api/staffs"
 
 let token = null
@@ -24,4 +25,14 @@ const update = async(id,data) => {
   return response.data
 }
 
-export default {setToken, create, update}
+const getTotal = async(data) => {
+  const config = {
+    headers: {Authorization: token}
+  }
+  console.log("gettotal",data)
+  const response = await axios.post(`${baseURL}/week-total`,data,config)
+  return response.data
+}
+
+
+export default {setToken, create, update, getTotal}

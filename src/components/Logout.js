@@ -1,20 +1,20 @@
 import React from "react"
-import {Button} from "react-bootstrap"
+import {NavDropdown} from "react-bootstrap"
 import {connect} from "react-redux"
 
-import { loginAction } from "../reducers/loginReducer"
+
+import { loginAction, logoutAction } from "../reducers/loginReducer"
 
 const Logout = (props) => {
   const handleLogout = (event) => {
     event.preventDefault()
     window.localStorage.removeItem("userToken")
     props.login(null)
+    props.logout()
   }
 
   return (
-    <div>
-      <Button variant="primary" onClick={handleLogout}>Log out</Button>
-    </div>
+      <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
   )
 }
 
@@ -22,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login: (user) => {
       dispatch(loginAction(user))
+    },
+    logout: () => {
+      dispatch(logoutAction())
     }
   }
 }
