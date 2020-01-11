@@ -1,5 +1,6 @@
 # Your Staff
 It will help you manage the incomes of your staff. The idea comes from my sister because she needs an application to caculate the amount for payroll.
+![](screenshot.gif)
 
 ## Run it locally
 1. Clone this project
