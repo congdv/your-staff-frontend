@@ -16,4 +16,3 @@ You should run with backend of this application
 
 ## Demo
 You can run a demo [here](https://calm-badlands-74911.herokuapp.com/)
-Login: demo/demo
