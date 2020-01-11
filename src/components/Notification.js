@@ -1,5 +1,5 @@
 import React from "react"
-import {Alert} from "react-bootstrap"
+import { Alert } from "react-bootstrap"
 
 const Notification = (props) => {
   const notification = props.notification
@@ -8,7 +8,7 @@ const Notification = (props) => {
     return null
   }
   return (
-  <div> {notification.message && <Alert variant={notification.type}>{notification.message}</Alert>}</div>
+    <div> {notification.message && <Alert variant={notification.type}>{notification.message}</Alert>}</div>
   )
 }
 

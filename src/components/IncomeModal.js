@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"
-import { Table, Button, Form, Row, Col, InputGroup , Modal} from "react-bootstrap"
-import {connect} from "react-redux"
-import {FaEdit} from "react-icons/fa"
+import { Table, Button, Form, Row, Col, InputGroup , Modal } from "react-bootstrap"
+import { connect } from "react-redux"
+import { FaEdit } from "react-icons/fa"
 
-import {updateIncomeOfStaffAction, addNewIncomeOfStaffAction } from "../reducers/staffReducer"
-import {updateIncomesTotalLocalAction} from "../reducers/incomeTotalReducer"
+import { updateIncomeOfStaffAction, addNewIncomeOfStaffAction } from "../reducers/staffReducer"
+import { updateIncomesTotalLocalAction } from "../reducers/incomeTotalReducer"
 
 const AmountsTable = (props) => {
   const removeAmount = (index) => {
@@ -46,7 +46,7 @@ const IncomeModal = (props) => {
   const [amount, setAmount] = useState("")
   const [amounts, setAmounts] = useState(props.amounts)
   const [validated, setValidated] = useState(false)
-  
+
   useEffect(() => setAmounts(props.amounts),[props.amounts])
   const addAmount = () => {
     if(isNaN(amount) || amount === ""){
@@ -55,12 +55,12 @@ const IncomeModal = (props) => {
     }
     setValidated(false)
     setAmounts(amounts.concat(Number(amount)))
-    
+
     const data = {
       date: props.day,
       amount: amount
     }
-    
+
     props.addNewIcomeOfStaff(props.staff._id,data)
     props.updateTotalIncomes(props.staff, amount, props.date)
     setAmount("")
@@ -84,8 +84,8 @@ const IncomeModal = (props) => {
     props.updateTotalIncomes(props.staff, differentTotal, props.date)
   }
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
   return (
     <>
       <button className="icon-btn float-right" onClick={ handleShow } ><FaEdit/></button>
@@ -105,11 +105,11 @@ const IncomeModal = (props) => {
                       <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
                     </InputGroup.Prepend>
                     <Form.Control
-                    type="number"
-                    name="amount"
-                    value={amount}
-                    onChange={({ target }) => setAmount(target.value)}
-                    required/>
+                      type="number"
+                      name="amount"
+                      value={amount}
+                      onChange={({ target }) => setAmount(target.value)}
+                      required/>
                     <Form.Control.Feedback type="invalid">
                         Please provide a valid number.
                     </Form.Control.Feedback>
@@ -121,7 +121,7 @@ const IncomeModal = (props) => {
           </Form>
           <AmountsTable amounts={amounts} setToAmounts={(value) => setToAmounts(value)}/>
         </Modal.Body>
-        
+
       </Modal>
     </>
   )

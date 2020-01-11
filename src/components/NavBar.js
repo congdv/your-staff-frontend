@@ -1,6 +1,6 @@
 import React from "react"
 import { Navbar, NavDropdown } from "react-bootstrap"
-import {connect} from "react-redux"
+import { connect } from "react-redux"
 
 import Logout from "./Logout"
 

@@ -1,10 +1,10 @@
-import React, {useState} from "react"
-import { Button, Modal} from "react-bootstrap"
-import {connect} from "react-redux"
+import React, { useState } from "react"
+import { Button, Modal } from "react-bootstrap"
+import { connect } from "react-redux"
 import { useField, useDate } from "../hooks"
 
 
-import {newStaffAction} from "../reducers/staffReducer"
+import { newStaffAction } from "../reducers/staffReducer"
 import NewStaffForm from "./NewStaffForm"
 
 const NewStaffModal = (props) => {
@@ -22,7 +22,7 @@ const NewStaffModal = (props) => {
     }
     console.log("New Staff", newStaff)
     try {
-      
+
       props.addNewStaff(newStaff)
       firstName.reset()
       lastName.reset()
@@ -33,20 +33,20 @@ const NewStaffModal = (props) => {
 
   }
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
   return (
     <>
-    <Button variant="primary" onClick={ handleShow } className="float-left">New Staff</Button>
-    <Modal show={show} onHide={handleClose} centered>
-      <Modal.Header closeButton>
+      <Button variant="primary" onClick={ handleShow } className="float-left">New Staff</Button>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
           <Modal.Title>New Staff</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <NewStaffForm firstName={firstName} lastName={lastName} handleSubmit={addNewStaff} handleClose={handleClose} selectedDate={selectedDate}/>
-      </Modal.Body>
-    </Modal>
-   
+        </Modal.Header>
+        <Modal.Body>
+          <NewStaffForm firstName={firstName} lastName={lastName} handleSubmit={addNewStaff} handleClose={handleClose} selectedDate={selectedDate}/>
+        </Modal.Body>
+      </Modal>
+
     </>
   )
 }

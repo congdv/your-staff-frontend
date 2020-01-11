@@ -1,14 +1,14 @@
-import React, { useEffect} from 'react'
-import {connect} from "react-redux"
+import React, { useEffect } from "react"
+import { connect } from "react-redux"
 
 import staffService from "./services/staffs"
 import incomeOfStaffService from "./services/incomeOfStaff"
 import Login from "./components/Login"
 import NavBar from "./components/NavBar"
 
-import {loginAction} from "./reducers/loginReducer"
-import {getAllActiveStaffsAction} from "./reducers/staffReducer"
-import SideBar from './components/SideBar'
+import { loginAction } from "./reducers/loginReducer"
+import { getAllActiveStaffsAction } from "./reducers/staffReducer"
+import SideBar from "./components/SideBar"
 
 
 const Header = () => {
@@ -26,7 +26,7 @@ const App = (props) => {
   const hook = () => {
     const loggedUserJSON = window.localStorage.getItem("userToken")
     if(loggedUserJSON) {
-    
+
       const user = JSON.parse(loggedUserJSON)
       staffService.setToken(user.token)
       incomeOfStaffService.setToken(user.token)
@@ -37,10 +37,10 @@ const App = (props) => {
   console.log(props)
   return (
     <div>
-      {!props.user ?  <Login/> : 
-      <>
-        <Header/>
-      </>
+      {!props.user ?  <Login/> :
+        <>
+          <Header/>
+        </>
       }
     </div>
   )

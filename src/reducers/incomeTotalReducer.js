@@ -19,14 +19,14 @@ const updateIncomesTotalState = (stateData, newData) => {
 
 const incomeTotalReducer = (state=[],action) => {
   switch (action.type) {
-    case "INIT_INCOMES_TOTAL":
-      return action.data
-    case "UPDATE_INCOMES_TOTAL":
-      return action.data
-    case "UPDATE_INCOMES_TOTAL_LOCAL":
-      return updateIncomesTotalState(state,action.data)
-    default:
-      return state
+  case "INIT_INCOMES_TOTAL":
+    return action.data
+  case "UPDATE_INCOMES_TOTAL":
+    return action.data
+  case "UPDATE_INCOMES_TOTAL_LOCAL":
+    return updateIncomesTotalState(state,action.data)
+  default:
+    return state
   }
 }
 
@@ -36,7 +36,7 @@ export const initializeIncomesTotalAction = (date) => {
     const data = {
       date: date
     }
-    const staffs = await incomeService.getTotal(data) 
+    const staffs = await incomeService.getTotal(data)
     dispatch({
       type: "INIT_INCOMES_TOTAL",
       data: staffs
@@ -49,7 +49,7 @@ export const updateIncomesTotalAction = (date) => {
     const data = {
       date: date
     }
-    const staffs = await incomeService.getTotal(data) 
+    const staffs = await incomeService.getTotal(data)
     dispatch({
       type: "UPDATE_INCOMES_TOTAL",
       data: staffs

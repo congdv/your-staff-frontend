@@ -1,12 +1,12 @@
 import React, { useEffect } from "react"
 import Moment from "react-moment"
-import {Table} from "react-bootstrap"
-import {connect} from "react-redux"
+import { Table } from "react-bootstrap"
+import { connect } from "react-redux"
 import moment from "moment"
 
 import IncomeModal from "./IncomeModal"
-import {updateDisplayStaffsAction, getAllActiveStaffsAction} from "../reducers/staffReducer"
-import {initializeIncomesTotalAction} from "../reducers/incomeTotalReducer"
+import { updateDisplayStaffsAction, getAllActiveStaffsAction } from "../reducers/staffReducer"
+import { initializeIncomesTotalAction } from "../reducers/incomeTotalReducer"
 
 const getIncomeOfDay = (day, incomeOfDays,staff) => {
   let total = "$0"
@@ -14,20 +14,20 @@ const getIncomeOfDay = (day, incomeOfDays,staff) => {
   if(incomeOfDays !== undefined){
     const incomeOfDay = incomeOfDays.find(incomePerDay => moment(incomePerDay.date).isSame(day,"day"))
     if(incomeOfDay && incomeOfDay.amounts) {
-          total = `$${incomeOfDay.amounts.reduce((a,b)=> a+b,0)}`
-          amounts = incomeOfDay.amounts
-          return (
-            <>
-              <span>{total}</span>
-              <IncomeModal amounts={amounts} day={day} staff={staff}/>
-            </>)
+      total = `$${incomeOfDay.amounts.reduce((a,b) => a+b,0)}`
+      amounts = incomeOfDay.amounts
+      return (
+        <>
+          <span>{total}</span>
+          <IncomeModal amounts={amounts} day={day} staff={staff}/>
+        </>)
     }
   }
   return (
-  <>
-    <span>{total}</span>
-    <IncomeModal amounts={amounts} day={day} staff={staff}/>
-  </>)
+    <>
+      <span>{total}</span>
+      <IncomeModal amounts={amounts} day={day} staff={staff}/>
+    </>)
 }
 
 const TimeTable = (props) => {
@@ -78,19 +78,18 @@ const TimeTable = (props) => {
                   {props.week.map(day => {
                     if(moment(day).isSame(new Date(),"day")) {
                       return (
-                        <td key={day} style={{backgroundColor:"#e9ecef", color:"#000"}}> 
+                        <td key={day} style={{ backgroundColor:"#e9ecef", color:"#000" }}>
                           {getIncomeOfDay(day, staff.incomeOfDays,staff)}
                         </td>
                       )
                     }
                     return (
-                      <td key={day}> 
+                      <td key={day}>
                         {getIncomeOfDay(day, staff.incomeOfDays,staff)}
                       </td>
                     )
                   }
-                    
-                    )}
+                  )}
                   <td> $
                     {
                       getTotalOfStaff(staff)
@@ -124,7 +123,6 @@ const staffsToShow = (staffs) => {
 }
 
 const mapStateToProps = (state) => {
-  
   return {
     allStaffs:staffsToShow(state.staff),
     date: state.date,

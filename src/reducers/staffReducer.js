@@ -31,14 +31,14 @@ const addNewIncomeOfStaff = (staffs, newIncomeOfDay) => {
     staff => {
       if(staff._id === newIncomeOfDay.staff) {
         let foundDate = false
-        
+
         staff.incomeOfDays = staff.incomeOfDays.map(incomeOfDay => {
           if(incomeOfDay._id === newIncomeOfDay._id) {
             foundDate = true
             return newIncomeOfDay
           }
           return incomeOfDay
-          
+
         })
         if(!foundDate){
           staff.incomeOfDays = staff.incomeOfDays.concat(newIncomeOfDay)
@@ -55,24 +55,24 @@ const addNewIncomeOfStaff = (staffs, newIncomeOfDay) => {
 
 const staffReducer = (state=[], action) => {
   switch(action.type) {
-    case "NEW_STAFF":
-      return [...state, action.data]
-    case "INIT_STAFFS":
-      return action.data
-    case "GET_ACTIVE_STAFFS":
-      return action.data
-    case "UPDATE_INCOME_OF_STAFF":
-      return updateIncomeOfStaff(state,action.data)
-    case "ADD_NEW_INCOME_OF_STAFF":
-      return addNewIncomeOfStaff(state,action.data)
-    case "UPDATE_DISPLAY_STAFFS":
-      return updateDateofStaffs(state,action.data)
-    case "DEACTIVE_STAFF":
-      return state.map(staff => staff._id === action.data._id ? action.data : staff)
-    case "ACTIVE_STAFF":
-      return state.map(staff => staff._id === action.data._id ? action.data : staff)
-    default:
-      return state
+  case "NEW_STAFF":
+    return [...state, action.data]
+  case "INIT_STAFFS":
+    return action.data
+  case "GET_ACTIVE_STAFFS":
+    return action.data
+  case "UPDATE_INCOME_OF_STAFF":
+    return updateIncomeOfStaff(state,action.data)
+  case "ADD_NEW_INCOME_OF_STAFF":
+    return addNewIncomeOfStaff(state,action.data)
+  case "UPDATE_DISPLAY_STAFFS":
+    return updateDateofStaffs(state,action.data)
+  case "DEACTIVE_STAFF":
+    return state.map(staff => staff._id === action.data._id ? action.data : staff)
+  case "ACTIVE_STAFF":
+    return state.map(staff => staff._id === action.data._id ? action.data : staff)
+  default:
+    return state
   }
 }
 

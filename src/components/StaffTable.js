@@ -1,9 +1,9 @@
 import React, { useEffect } from "react"
 import { Table, Button } from "react-bootstrap"
-import {connect} from "react-redux"
+import { connect } from "react-redux"
 import moment from "moment"
 
-import {initializeStaffsAction, deactiveStaffAction, activeStaffAction} from "../reducers/staffReducer"
+import { initializeStaffsAction, deactiveStaffAction, activeStaffAction } from "../reducers/staffReducer"
 
 const StaffTable = (props) => {
   const hook = () => {
@@ -23,14 +23,14 @@ const StaffTable = (props) => {
         </thead>
         <tbody>
           {props.staffs.map(
-            staff => 
-            <tr key={staff._id}>
-              <td>{staff.firstName + " " +staff.lastName}</td>
-              <td>{moment(staff.employmentStartDate).toDate().toDateString()}</td>
-              <td>{!staff.isActive ? moment(staff.employmentEndDate).toDate().toDateString(): ""}</td>
-              <td>{staff.isActive ? <><span>Working</span> <Button style={{float: "right"}} variant="danger" onClick={() => props.deactiveStaff(staff._id)}>Deactive</Button></> 
-                  : <> <span>Not Working</span><Button style={{float: "right"}} variant="primary" onClick={() => props.activeStaff(staff._id)}>Active</Button></>}</td>
-            </tr>
+            staff =>
+              <tr key={staff._id}>
+                <td>{staff.firstName + " " +staff.lastName}</td>
+                <td>{moment(staff.employmentStartDate).toDate().toDateString()}</td>
+                <td>{!staff.isActive ? moment(staff.employmentEndDate).toDate().toDateString(): ""}</td>
+                <td>{staff.isActive ? <><span>Working</span> <Button style={{ float: "right" }} variant="danger" onClick={() => props.deactiveStaff(staff._id)}>Deactive</Button></>
+                  : <> <span>Not Working</span><Button style={{ float: "right" }} variant="primary" onClick={() => props.activeStaff(staff._id)}>Active</Button></>}</td>
+              </tr>
           )}
         </tbody>
       </Table>

@@ -1,9 +1,9 @@
 import React from "react"
-import {Form, Button, Row, Col} from "react-bootstrap"
+import { Form, Button } from "react-bootstrap"
 import DatePicker from "react-datepicker"
 
 
-const StaffForm = ({firstName, lastName, handleSubmit, handleClose, selectedDate}) => {
+const StaffForm = ({ firstName, lastName, handleSubmit, handleClose, selectedDate }) => {
 
   return (
     <>
@@ -15,7 +15,7 @@ const StaffForm = ({firstName, lastName, handleSubmit, handleClose, selectedDate
             type={firstName.type}
             onChange = {firstName.onChange}
             required
-            />
+          />
         </Form.Group>
         <Form.Group>
           <Form.Label>Last Name:</Form.Label>
@@ -25,28 +25,25 @@ const StaffForm = ({firstName, lastName, handleSubmit, handleClose, selectedDate
             onChange={lastName.onChange}/>
         </Form.Group>
         <Form.Group>
-            <Form.Label>Employment Start Date:</Form.Label>
-            <Form.Row>
-              <div className="datepickerWrap">
-                <DatePicker
+          <Form.Label>Employment Start Date:</Form.Label>
+          <Form.Row>
+            <div className="datepickerWrap">
+              <DatePicker
                 todayButton="Today"
                 selected={selectedDate.date}
                 className="form-control"
                 onChange= {(date) => selectedDate.selectingDate(date)}
                 dateFormat="MMMM dd, yyyy"/>
-              </div>
-              
-            </Form.Row>
+            </div>
+          </Form.Row>
         </Form.Group>
         <Form.Group>
-            <div className="float-right">
-              <Button onClick={handleClose} className="mr-3"> Cancel</Button>
-              <Button type="submit">Create</Button>
-            </div>
-            
-
+          <div className="float-right">
+            <Button onClick={handleClose} className="mr-3"> Cancel</Button>
+            <Button type="submit">Create</Button>
+          </div>
         </Form.Group>
-        </Form>
+      </Form>
     </>
   )
 }

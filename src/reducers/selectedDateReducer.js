@@ -1,10 +1,11 @@
 
-const selectedDateReducer = (state=null, action) => {
+// eslint-disable-next-line no-unused-vars
+const selectedDateReducer = ( state=null, action) => {
   switch (action.type) {
-    case "CURRENT_DATE":
-      return action.data
-    default:
-      return new Date()
+  case "CURRENT_DATE":
+    return action.data
+  default:
+    return new Date()
   }
 }
 

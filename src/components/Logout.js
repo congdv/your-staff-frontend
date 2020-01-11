@@ -1,6 +1,6 @@
 import React from "react"
-import {NavDropdown} from "react-bootstrap"
-import {connect} from "react-redux"
+import { NavDropdown } from "react-bootstrap"
+import { connect } from "react-redux"
 
 
 import { loginAction, logoutAction } from "../reducers/loginReducer"
@@ -14,7 +14,7 @@ const Logout = (props) => {
   }
 
   return (
-      <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+    <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
   )
 }
 

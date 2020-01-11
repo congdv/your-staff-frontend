@@ -1,14 +1,14 @@
 import DatePicker from "react-datepicker"
-import React, {useState} from "react"
-import {connect} from "react-redux"
+import React, { useState } from "react"
+import { connect } from "react-redux"
 import "react-datepicker/dist/react-datepicker.css"
-import {FaAngleDoubleLeft, FaAngleDoubleRight} from "react-icons/fa"
+import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa"
 
-import {selectingDateAction} from "../reducers/selectedDateReducer"
-import {selectingWeekAction} from "../reducers/selectedWeekReducer"
-import {updateDisplayStaffsAction} from "../reducers/staffReducer"
-import {updateIncomesTotalAction} from "../reducers/incomeTotalReducer"
-import { Button, Row, Col} from "react-bootstrap"
+import { selectingDateAction } from "../reducers/selectedDateReducer"
+import { selectingWeekAction } from "../reducers/selectedWeekReducer"
+import { updateDisplayStaffsAction } from "../reducers/staffReducer"
+import { updateIncomesTotalAction } from "../reducers/incomeTotalReducer"
+import { Button } from "react-bootstrap"
 import moment from "moment"
 
 
@@ -20,7 +20,7 @@ const DateOfWeek = (props) => {
     props.selectDate(date)
     props.fetchedStaffs(date)
     props.updateTotalIncomes(date)
-    
+
   }
   const previousWeek = () => {
     const day = moment(startDate).subtract(7,"days")
@@ -35,11 +35,11 @@ const DateOfWeek = (props) => {
       <Button onClick={previousWeek}><FaAngleDoubleLeft/></Button>
       <Button onClick={() => selectingDate(new Date())} className="ml-1 mr-1">Today</Button>
       <DatePicker
-      todayButton="Today"
-      selected={startDate}
-      onChange= {date => selectingDate(date)}
-      className="form-control"
-      dateFormat="MMMM dd, yyyy"/>
+        todayButton="Today"
+        selected={startDate}
+        onChange= {date => selectingDate(date)}
+        className="form-control"
+        dateFormat="MMMM dd, yyyy"/>
       <Button onClick={nextWeek} className="ml-1"><FaAngleDoubleRight/></Button>
     </div>
   )

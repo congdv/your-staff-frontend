@@ -1,5 +1,5 @@
-import React,{useState} from "react"
-import {connect} from "react-redux"
+import React,{ useState } from "react"
+import { connect } from "react-redux"
 
 import loginService from "../services/login"
 import LoginForm from "./LoginForm"
@@ -12,7 +12,7 @@ import Notification from "../components/Notification"
 const Login = (props) => {
   const username = useField("text")
   const password = useField("password")
-  const [notification, setNotification] = useState({message: undefined, type: undefined})
+  const [notification, setNotification] = useState({ message: undefined, type: undefined })
 
   const handleLogin = async(event) => {
     event.preventDefault()
@@ -27,9 +27,9 @@ const Login = (props) => {
       incomeOfStaffService.setToken(user.token)
       props.login(user)
     }catch(exception) {
-      setNotification({message:"wrong username or password", type:"danger"})
+      setNotification({ message:"wrong username or password", type:"danger" })
       setTimeout(() => {
-        setNotification({message: undefined, type: undefined})
+        setNotification({ message: undefined, type: undefined })
       }, 3000)
     }
   }
@@ -40,9 +40,9 @@ const Login = (props) => {
       <div className="login">
         <p className="login-title">Your Staff</p>
         <LoginForm md="auto"
-        username={username}
-        password={password}
-        handleSubmit={handleLogin}/>
+          username={username}
+          password={password}
+          handleSubmit={handleLogin}/>
       </div>
     </div>
   )
