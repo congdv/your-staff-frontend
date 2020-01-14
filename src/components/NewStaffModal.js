@@ -20,7 +20,6 @@ const NewStaffModal = (props) => {
       lastName: lastName.value,
       employmentStartDate: selectedDate.date
     }
-    console.log("New Staff", newStaff)
     try {
 
       props.addNewStaff(newStaff)

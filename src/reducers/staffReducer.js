@@ -49,7 +49,6 @@ const addNewIncomeOfStaff = (staffs, newIncomeOfDay) => {
       return staff
     }
   )
-  console.log(newStaffs,"new")
   return newStaffs
 }
 
@@ -97,7 +96,6 @@ export const getAllActiveStaffsAction = () => {
 export const newStaffAction = (newObj) => {
   return async dispatch => {
     const savedStaff = await staffService.create(newObj)
-    console.log(typeof savedStaff,"Saved Staff")
     dispatch({
       type: "NEW_STAFF",
       data: savedStaff
@@ -127,8 +125,8 @@ export const activeStaffAction = (id) => {
 export const updateDisplayStaffsAction = (today) => {
   return async dispatch => {
     const dateRange = {
-      fromDate: moment(today).startOf("isoWeek"),
-      toDate: moment(today).endOf("isoWeek")
+      fromDate: moment(today).startOf("isoWeek").toDate(),
+      toDate: moment(today).endOf("isoWeek").toDate()
     }
     const fetchedStaffs = await staffService.getAllStaffInDateRange(dateRange)
     dispatch({
@@ -141,7 +139,6 @@ export const updateDisplayStaffsAction = (today) => {
 export const updateIncomeOfStaffAction = (id,data) => {
   return async dispatch => {
     const updateIncomeOfStaff = await incomeService.update(id,data)
-    console.log(updateIncomeOfStaff,"hahah")
     dispatch({
       type: "UPDATE_INCOME_OF_STAFF",
       data: updateIncomeOfStaff

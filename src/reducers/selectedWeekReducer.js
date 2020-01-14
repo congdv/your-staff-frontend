@@ -5,17 +5,18 @@ const selectedWeekReducer = (state=[], action) => {
   case "CURRENT_WEEK":
     return action.data
   default:
-    return state.length < 1 ? generateDaysOfWeek(new Date()) : state
+    return state.length < 1 ? generateDaysOfWeek(moment().toDate()) : state
   }
 }
 
 const generateDaysOfWeek = (day) => {
-
-  const startWeekOf = moment(day).startOf("isoWeek")
-  const endWeekOf = moment(day).endOf("isoWeek")
-  let dayIndex = startWeekOf.set({ hour: day.getHours(), minute: day.getMinutes() })
+  //Modifying to ISO date
+  const selectedDate = moment(day)
+  console.log(selectedDate.format())
+  const startWeekOf = moment(selectedDate).startOf("isoWeek")
+  const endWeekOf = moment(selectedDate).endOf("isoWeek")
+  let dayIndex = startWeekOf.set({ hour: selectedDate.hours(), minute: selectedDate.minutes() })
   let weekDays = []
-  console.log(startWeekOf.toDate())
   while(dayIndex.isSameOrBefore(endWeekOf)) {
     weekDays.push(dayIndex.toDate())
     dayIndex.add(1,"days")

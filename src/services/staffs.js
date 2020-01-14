@@ -35,7 +35,6 @@ const getAllStaffInDateRange = async (rangeDate) => {
   const config = {
     headers: { Authorization: token }
   }
-  console.log("Range Date", rangeDate)
   const response = await axios.post(`${baseURL}/incomes`, rangeDate, config)
   return response.data
 }

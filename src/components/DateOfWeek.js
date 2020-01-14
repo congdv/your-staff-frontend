@@ -13,7 +13,7 @@ import moment from "moment"
 
 
 const DateOfWeek = (props) => {
-  const [startDate, setStartDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(moment().toDate())
   const selectingDate = (date) => {
     setStartDate(date)
     props.selectWeek(date)
@@ -22,6 +22,7 @@ const DateOfWeek = (props) => {
     props.updateTotalIncomes(date)
 
   }
+  console.log("Start Date",startDate.toISOString())
   const previousWeek = () => {
     const day = moment(startDate).subtract(7,"days")
     selectingDate(day.toDate())
@@ -33,7 +34,7 @@ const DateOfWeek = (props) => {
   return (
     <div className="col-centered">
       <Button onClick={previousWeek}><FaAngleDoubleLeft/></Button>
-      <Button onClick={() => selectingDate(new Date())} className="ml-1 mr-1">Today</Button>
+      <Button onClick={() => selectingDate( moment().toDate())} className="ml-1 mr-1">Today</Button>
       <DatePicker
         todayButton="Today"
         selected={startDate}

@@ -46,8 +46,9 @@ export const initializeIncomesTotalAction = (date) => {
 
 export const updateIncomesTotalAction = (date) => {
   return async dispatch => {
+    console.log(date)
     const data = {
-      date: date
+      date: moment(date).toISOString()
     }
     const staffs = await incomeService.getTotal(data)
     dispatch({
