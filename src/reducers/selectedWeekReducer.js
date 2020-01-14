@@ -12,7 +12,6 @@ const selectedWeekReducer = (state=[], action) => {
 const generateDaysOfWeek = (day) => {
   //Modifying to ISO date
   const selectedDate = moment(day)
-  console.log(selectedDate.format())
   const startWeekOf = moment(selectedDate).startOf("isoWeek")
   const endWeekOf = moment(selectedDate).endOf("isoWeek")
   let dayIndex = startWeekOf.set({ hour: selectedDate.hours(), minute: selectedDate.minutes() })

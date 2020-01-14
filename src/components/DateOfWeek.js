@@ -22,7 +22,6 @@ const DateOfWeek = (props) => {
     props.updateTotalIncomes(date)
 
   }
-  console.log("Start Date",startDate.toISOString())
   const previousWeek = () => {
     const day = moment(startDate).subtract(7,"days")
     selectingDate(day.toDate())
