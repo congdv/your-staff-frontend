@@ -9,6 +9,7 @@ import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav"
 import "@trendmicro/react-sidenav/dist/react-sidenav.css"
 import Home from "./Home"
 import StaffTable from "./StaffTable"
+import UserProfile from "./UserProfile"
 
 
 const SideBar = () => {
@@ -58,6 +59,7 @@ const SideBar = () => {
             <Route path="/" exact component={ () => <Home />} />
             <Route path="/home" component={ () => <Home />} />
             <Route path="/employees" component={ () => <StaffTable />} />
+            <Route path="/profile" component={() => <UserProfile />}/>
           </main>
         </React.Fragment>
       )}

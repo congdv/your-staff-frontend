@@ -10,7 +10,9 @@ const NavBar = (props) => {
       <div className="container">
         <Navbar.Text>Your Staff</Navbar.Text>
         <NavDropdown title={props.user.name} id="nav-dropdown">
-          <NavDropdown.Item>Your Profile</NavDropdown.Item>
+          <NavDropdown.Item href="/profile">
+              Your Profile
+          </NavDropdown.Item>
           <NavDropdown.Divider/>
           <Logout/>
         </NavDropdown>

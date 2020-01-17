@@ -1,7 +1,7 @@
 import React,{ useState } from "react"
 import { connect } from "react-redux"
 
-import loginService from "../services/login"
+import userService from "../services/user"
 import LoginForm from "./LoginForm"
 import { useField } from "../hooks"
 import staffService from "../services/staffs"
@@ -18,7 +18,7 @@ const Login = (props) => {
     event.preventDefault()
 
     try {
-      const user = await loginService.login({
+      const user = await userService.login({
         username: username.value,
         password: password.value
       })

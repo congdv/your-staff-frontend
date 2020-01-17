@@ -29,7 +29,6 @@ const getTotal = async(data) => {
   const config = {
     headers: { Authorization: token }
   }
-  console.log("Week total",data)
   const response = await axios.post(`${baseURL}/week-total`,data,config)
   return response.data
 }

@@ -32,7 +32,11 @@ const NewStaffModal = (props) => {
 
   }
 
-  const handleClose = () => setShow(false)
+  const handleClose = () => {
+    setShow(false)
+    firstName.reset()
+    lastName.reset()
+  }
   const handleShow = () => setShow(true)
   return (
     <>

@@ -34,7 +34,6 @@ const App = (props) => {
     }
   }
   useEffect(hook, [])
-  console.log(props)
   return (
     <div>
       {!props.user ?  <Login/> :
