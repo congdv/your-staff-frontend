@@ -1,13 +1,12 @@
 import React from "react"
-import { Form, Button } from "react-bootstrap"
+import { Form, Button,InputGroup } from "react-bootstrap"
 import DatePicker from "react-datepicker"
 
 
-const StaffForm = ({ firstName, lastName, handleSubmit, handleClose, selectedDate }) => {
-
+const StaffForm = ({ firstName, lastName, handleSubmit, handleClose, selectedDate, percent, validated }) => {
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} noValidate validated={validated}>
         <Form.Group>
           <Form.Label>First Name:</Form.Label>
           <Form.Control
@@ -36,6 +35,23 @@ const StaffForm = ({ firstName, lastName, handleSubmit, handleClose, selectedDat
                 dateFormat="MMMM dd, yyyy"/>
             </div>
           </Form.Row>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Percentage Income:</Form.Label>
+          <InputGroup>
+            <Form.Control
+              type="number"
+              name="Percent"
+              value={percent.value}
+              onChange={percent.onChange}
+              required/>
+            <InputGroup.Prepend>
+              <InputGroup.Text id="inputGroupPrepend">%</InputGroup.Text>
+            </InputGroup.Prepend>
+            <Form.Control.Feedback type="invalid">
+              Please provide a valid number.
+            </Form.Control.Feedback>
+          </InputGroup>
         </Form.Group>
         <Form.Group>
           <div className="float-right">

@@ -11,10 +11,17 @@ const NewStaffModal = (props) => {
   const [show, setShow] = useState(false)
   const firstName = useField("text")
   const lastName = useField("text")
+  const percent = useField("number")
+  const [validated, setValidated] = useState(false)
   const selectedDate = useDate()
 
   const addNewStaff = async(event) => {
     event.preventDefault()
+    if(isNaN(percent.value) || percent.value === ""){
+      setValidated(true)
+      return
+    }
+    setValidated(false)
     const newStaff = {
       firstName: firstName.value,
       lastName: lastName.value,
@@ -36,6 +43,8 @@ const NewStaffModal = (props) => {
     setShow(false)
     firstName.reset()
     lastName.reset()
+    percent.reset()
+    setValidated(false)
   }
   const handleShow = () => setShow(true)
   return (
@@ -46,7 +55,10 @@ const NewStaffModal = (props) => {
           <Modal.Title>New Staff</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <NewStaffForm firstName={firstName} lastName={lastName} handleSubmit={addNewStaff} handleClose={handleClose} selectedDate={selectedDate}/>
+          <NewStaffForm firstName={firstName} lastName={lastName}
+            handleSubmit={addNewStaff} handleClose={handleClose}
+            selectedDate={selectedDate} percent={percent}
+            validated={validated}/>
         </Modal.Body>
       </Modal>
 

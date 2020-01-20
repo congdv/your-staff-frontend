@@ -60,7 +60,7 @@ const TimeTable = (props) => {
             <th >Staff</th>
             {
               props.week.map(day =>
-                <th key={day}>
+                <th key={day} style={{ width:"10%" }}>
                   <span ><Moment format="dddd">{day}</Moment></span><br/>
                   <Moment format="MMM Do">{day}</Moment>
                 </th>
