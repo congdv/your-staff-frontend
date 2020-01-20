@@ -58,3 +58,9 @@ table td, table th {
 .sidebar {
   background-color: #1A263A;
 }
+.profile {
+  padding: 10px 20px;
+}
+.profile:hover {
+  text-decoration: none;
+}

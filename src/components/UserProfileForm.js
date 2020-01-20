@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { Form, Button } from "react-bootstrap"
 import { connect } from "react-redux"
 import { useField } from "../hooks"
@@ -14,7 +14,14 @@ const notify = (message, type, setNotification) => {
     setNotification({ message: undefined, type: undefined })
   }, 3000)
 }
-
+const useInMounted = () => {
+  const isMounted = useRef(false)
+  useEffect(() => {
+    isMounted.current = true
+    return () => (isMounted.current = false)
+  },[isMounted])
+  return isMounted
+}
 
 const UserProfileForm = (props) => {
   const name = useField("text",props.user.name)
@@ -24,8 +31,11 @@ const UserProfileForm = (props) => {
   const [user, setUser] = useState(props.user)
   const [notification, setNotification] = useState({ message: undefined, type: undefined })
 
+  const isMounted = useInMounted()
   const hook = () => {
-    props.updateUser(user)
+    if(isMounted.current){
+      props.updateUser(user)
+    }
   }
   useEffect(hook ,[])
 
@@ -51,15 +61,14 @@ const UserProfileForm = (props) => {
       oldPassword.reset()
       newPassword.reset()
       confirmationPassword.reset()
-      reRender()
+      // props.updateUser(updatedUser)
     } catch(exception) {
       notify(exception.error,"danger",(value) => setNotification(value))
     }
 
   }
-  const reRender = () => {
-    this.forceUpdate()
-  }
+
+
 
   return (
     <>
