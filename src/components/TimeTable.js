@@ -43,12 +43,15 @@ const TimeTable = (props) => {
     return null
   }
 
-  const getTotalOfStaff = (staff) => {
-    const totals = props.totals.find(totalOfstaff => totalOfstaff._id === staff._id)
-    if(totals) {
-      return totals.totalOfWeek
-    }
-    return 0
+  const getTotalFrom = (staff, week) => {
+    let total = 0
+    week.forEach(weekday => {
+      const incomeOfDay = staff.incomeOfDays.find(incomePerDay => moment(incomePerDay.date).isSame(weekday,"day"))
+      if(incomeOfDay && incomeOfDay.amounts) {
+        total += incomeOfDay.amounts.reduce((a,b) => a+b,0)
+      }
+    })
+    return total
   }
 
 
@@ -92,7 +95,7 @@ const TimeTable = (props) => {
                   )}
                   <td> $
                     {
-                      getTotalOfStaff(staff)
+                      getTotalFrom(staff,props.week)
                     }
                   </td>
                 </tr>

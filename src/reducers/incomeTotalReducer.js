@@ -46,7 +46,6 @@ export const initializeIncomesTotalAction = (date) => {
 
 export const updateIncomesTotalAction = (date) => {
   return async dispatch => {
-    console.log(date)
     const data = {
       date: moment(date).toISOString()
     }
