@@ -3,9 +3,7 @@ import { Table, Button, Form, Row, Col, InputGroup , Modal } from "react-bootstr
 import { connect } from "react-redux"
 import { FaEdit } from "react-icons/fa"
 
-import { updateIncomeOfStaffAction, addNewIncomeOfStaffAction } from "../reducers/staffReducer"
-import { updateIncomesTotalLocalAction } from "../reducers/incomeTotalReducer"
-import incomeAction from "../reducers/income.reducer"
+import incomeAction from "../actions/income.action"
 
 const AmountsTable = (props) => {
   const removeAmount = (index) => {
@@ -62,27 +60,18 @@ const IncomeModal = (props) => {
       amount: amount
     }
 
-    props.addNewIcomeOfStaff(props.staff._id,data)
-    props.updateTotalIncomes(props.staff, amount, props.date)
+    props.addIncome(props.staff._id,data)
     setAmount("")
 
   }
 
   const setToAmounts = (value) => {
-    //Get total before removing
-    const beforeRemovingTotal = amounts.reduce((a,b) => a + b, 0)
-    //Get total after removing
-    const afterRemovingTotal = value.reduce((a,b) => a + b, 0)
-    //Get different to compare
-    const differentTotal = afterRemovingTotal - beforeRemovingTotal // Expected to negative number
-
     setAmounts(value)
     const data = {
       date: props.day,
       amounts: value,
     }
-    props.updateIncomeOfStaff(props.staff._id, data)
-    props.updateTotalIncomes(props.staff, differentTotal, props.date)
+    props.removeIncome(props.staff._id, data)
   }
 
   const handleClose = () => setShow(false)
@@ -137,17 +126,11 @@ const mapStateToPros = (state) => {
 
 const mapDispatchToPros = (dispatch) => {
   return {
-    updateIncomeOfStaff: (id, data) => {
-      dispatch(updateIncomeOfStaffAction(id,data))
-    },
-    addNewIcomeOfStaff: (id, data) => {
-      dispatch(addNewIncomeOfStaffAction(id,data))
-    },
-    updateTotalIncomes: (staff, amount,date) => {
-      dispatch(updateIncomesTotalLocalAction(staff, amount, date))
-    },
     addIncome: (id, data) => {
       dispatch(incomeAction.addIncome(id,data))
+    },
+    removeIncome: (id, data) => {
+      dispatch(incomeAction.removeIncome(id,data))
     }
   }
 }

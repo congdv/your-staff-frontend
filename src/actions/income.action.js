@@ -12,7 +12,7 @@ const addIncome = (id, data) => {
       console.log(addedIncome,"addedIncome")
       dispatch({
         type: incomeConstants.ADD_SUCCESS,
-        addedIcome: addedIncome
+        data: addedIncome
       })
     }catch(exception) {
       console.log(exception.error)
@@ -25,4 +25,27 @@ const addIncome = (id, data) => {
   }
 }
 
-export default { addIncome }
+const removeIncome = (id, data) => {
+  return async dispatch => {
+    dispatch({
+      type: incomeConstants.REMOVE_REQUEST
+    })
+    try {
+      const removedIncome = await incomeService.update(id,data)
+      console.log(removedIncome,"removedIncome")
+      dispatch({
+        type: incomeConstants.REMOVE_SUCCESS,
+        data: removedIncome
+      })
+    }catch(exception) {
+      console.log(exception.error)
+      dispatch({
+        type: incomeConstants.REMOVE_FAILURE,
+        error: exception.error
+      })
+      dispatch(alertAction.error(exception.error))
+    }
+  }
+}
+
+export default { addIncome, removeIncome }
