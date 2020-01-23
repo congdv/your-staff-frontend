@@ -2,11 +2,6 @@ import axios from "axios"
 import { authHeader } from "../helpers/authHeader"
 const baseURL = "/api/staffs"
 
-let token = null
-
-const setToken = newToken => {
-  token = `bearer ${newToken}`
-}
 
 const getAll = async () => {
 
@@ -57,4 +52,4 @@ const activeStaff = async (id) => {
 }
 
 
-export default { setToken, getAll, getAllActiveStaffs, create, getAllStaffInDateRange, deactiveStaff, activeStaff }
+export default { getAll, getAllActiveStaffs, create, getAllStaffInDateRange, deactiveStaff, activeStaff }

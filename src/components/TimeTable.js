@@ -5,9 +5,7 @@ import { connect } from "react-redux"
 import moment from "moment"
 
 import IncomeModal from "./IncomeModal"
-import { updateDisplayStaffsAction, getAllActiveStaffsAction } from "../reducers/staffReducer"
-import { initializeIncomesTotalAction } from "../reducers/incomeTotalReducer"
-
+import staffAction from "../actions/staff.action"
 const getIncomeOfDay = (day, incomeOfDays,staff) => {
   let total = "$0"
   let amounts = []
@@ -31,25 +29,17 @@ const getIncomeOfDay = (day, incomeOfDays,staff) => {
 }
 
 const TimeTable = (props) => {
-
+  const { staffs } = props
+  console.log(staffs,"timetable")
   const hook = () => {
-    props.allActiveStaffs()
-    props.fetchedStaffs(props.date)
-    props.initIncomesTotal(props.date)
+    props.getStaffs(props.date,[])
   }
   useEffect(hook,[])
 
-  if(props.allStaffs === undefined) {
+  if(staffs.data === undefined) {
     return null
   }
 
-  const getTotalOfStaff = (staff) => {
-    const totals = props.totals.find(totalOfstaff => totalOfstaff._id === staff._id)
-    if(totals) {
-      return totals.totalOfWeek
-    }
-    return 0
-  }
 
   const getTotalFrom = (staff, week) => {
     let total = 0
@@ -81,7 +71,7 @@ const TimeTable = (props) => {
         </thead>
         <tbody>
           {
-            props.allStaffs.map(
+            staffs.data.map(
               staff => (
                 <tr key={staff._id}>
                   <td >{staff.firstName + " " +staff.lastName}</td>
@@ -111,16 +101,26 @@ const TimeTable = (props) => {
           }
         </tbody>
       </Table>
-
+      <div style={{ textAlign: "center" }}>
+        {
+          staffs.isFetching &&
+          <span><img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></span>
+        }
+        {
+          staffs.isAdding &&
+          <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        }
+      </div>
     </div>
   )
 }
 
 const staffsToShow = (staffs) => {
-  if(staffs === undefined) {
+  if(staffs === undefined || staffs.data === undefined) {
     return staffs
   }
-  const newStaffs =  staffs.sort((firstStaff, secondStaff) => {
+  console.log({ ...staffs },"sorted")
+  const sortedStaffs =  staffs.data.sort((firstStaff, secondStaff) => {
     if(secondStaff.firstName > firstStaff.firstName) {
       return -1
     }
@@ -129,27 +129,23 @@ const staffsToShow = (staffs) => {
     }
     return 0
   })
-  return newStaffs
+  return {
+    data: sortedStaffs,
+    ...staffs
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
-    allStaffs:staffsToShow(state.staff),
     date: state.date,
     week: state.week,
-    totals: state.totals
+    staffs: staffsToShow(state.staffs)
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    allActiveStaffs : () => {
-      dispatch(getAllActiveStaffsAction())
-    },
-    fetchedStaffs: (date) => {
-      dispatch(updateDisplayStaffsAction(date))
-    },
-    initIncomesTotal: (date) => {
-      dispatch(initializeIncomesTotalAction(date))
+    getStaffs: (date, staffs) => {
+      dispatch(staffAction.getStaffs(date, staffs))
     }
   }
 }

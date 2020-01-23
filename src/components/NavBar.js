@@ -6,11 +6,12 @@ import Logout from "./Logout"
 import { Link } from "react-router-dom"
 
 const NavBar = (props) => {
+  const { user } = props
   return (
     <Navbar bg="light" expand="lg">
       <div className="container">
-        <Navbar.Text>Your Staff</Navbar.Text>
-        <NavDropdown title={props.user.name} id="nav-dropdown">
+        <Navbar.Text className="brandNav"><Link to="/">Your Staff</Link></Navbar.Text>
+        <NavDropdown title={`${user.name}`} id="nav-dropdown">
           <NavDropdown.Item as={Link} to="/profile">Your Profile</NavDropdown.Item>
           <NavDropdown.Divider/>
           <Logout/>
@@ -21,8 +22,9 @@ const NavBar = (props) => {
 }
 
 const mapStateToProps = (state) => {
+  const { user } = state.authentication
   return {
-    user: state.user
+    user
   }
 }
 

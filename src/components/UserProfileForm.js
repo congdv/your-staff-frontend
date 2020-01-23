@@ -2,11 +2,9 @@ import React, { useState, useEffect, useRef } from "react"
 import { Form, Button } from "react-bootstrap"
 import { connect } from "react-redux"
 import { useField } from "../hooks"
-import Notification from "./Notification"
 import { updateAction }  from "../reducers/loginReducer"
-import userService from "../services/user"
-import staffService from "../services/staffs"
-import incomeOfStaffService from "../services/incomeOfStaff"
+import userAction from "../actions/user.action"
+import alertAction from "../actions/alert.action"
 
 const notify = (message, type, setNotification) => {
   setNotification({ message,type })
@@ -30,6 +28,7 @@ const UserProfileForm = (props) => {
   const confirmationPassword = useField("password")
   const [user, setUser] = useState(props.user)
   const [notification, setNotification] = useState({ message: undefined, type: undefined })
+  const { alert } = props
 
   const isMounted = useInMounted()
   const hook = () => {
@@ -46,33 +45,29 @@ const UserProfileForm = (props) => {
       return
     }
     try {
-      const updatedUser = await userService.update({
+      props.update({
         username:props.user.username,
         name: name.value,
         oldPassword : oldPassword.value,
         newPassword : newPassword.value,
         confirmationPassword: confirmationPassword.value
       })
-      notify("Successfully update your information","success",(value) => setNotification(value))
-      window.localStorage.setItem("userToken", JSON.stringify(updatedUser))
-      staffService.setToken(updatedUser.token)
-      incomeOfStaffService.setToken(updatedUser.token)
-      setUser(updatedUser)
       oldPassword.reset()
       newPassword.reset()
       confirmationPassword.reset()
-      // props.updateUser(updatedUser)
     } catch(exception) {
       notify(exception.error,"danger",(value) => setNotification(value))
     }
-
+    setTimeout(() => {
+      props.clearAlert()
+    }, 3000)
   }
 
 
 
   return (
-    <>
-      <Notification notification={notification}/>
+    <div className="updateUser">
+      { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
       <Form onSubmit={handleOnSubmit}>
         <Form.Group>
           <Form.Label>Username:</Form.Label>
@@ -92,18 +87,27 @@ const UserProfileForm = (props) => {
           <Button variant="primary" type="submit">Submit</Button>
         </Form.Row>
       </Form>
-    </>
+    </div>
   )
 }
 const mapStateToProps = (state) => {
+  const { user } = state.authentication
   return {
-    user: state.user
+    user,
+    alert: state.alert
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     updateUser: (user) => {
       dispatch(updateAction(user))
+    },
+    update: (props) => {
+      console.log(props)
+      dispatch(userAction.update(props))
+    },
+    clearAlert: () => {
+      dispatch(alertAction.clear())
     }
   }
 }

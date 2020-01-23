@@ -1,6 +1,7 @@
 import React from "react"
 import { NavDropdown } from "react-bootstrap"
 import { connect } from "react-redux"
+import userAction from "../actions/user.action"
 
 
 import { loginAction, logoutAction } from "../reducers/loginReducer"
@@ -25,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     logout: () => {
       dispatch(logoutAction())
+    },
+    userLogout: () => {
+      dispatch(userAction.logout())
     }
   }
 }

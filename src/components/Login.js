@@ -1,58 +1,67 @@
 import React,{ useState } from "react"
 import { connect } from "react-redux"
 
-import userService from "../services/user"
 import LoginForm from "./LoginForm"
 import { useField } from "../hooks"
-import staffService from "../services/staffs"
-import incomeOfStaffService from "../services/incomeOfStaff"
 import { loginAction } from "../reducers/loginReducer"
-import Notification from "../components/Notification"
+
+import userAction from "../actions/user.action"
+import alertAction from "../actions/alert.action"
+import { Redirect } from "react-router-dom"
 
 const Login = (props) => {
   const username = useField("text")
   const password = useField("password")
-  const [notification, setNotification] = useState({ message: undefined, type: undefined })
-
+  const { alert } = props
+  console.log(props.authentication)
   const handleLogin = async(event) => {
     event.preventDefault()
-
-    try {
-      const user = await userService.login({
-        username: username.value,
-        password: password.value
-      })
-      window.localStorage.setItem("userToken", JSON.stringify(user))
-      staffService.setToken(user.token)
-      incomeOfStaffService.setToken(user.token)
-      props.login(user)
-    }catch(exception) {
-      setNotification({ message:"wrong username or password", type:"danger" })
-      setTimeout(() => {
-        setNotification({ message: undefined, type: undefined })
-      }, 3000)
+    if(username && password) {
+      props.loginAction(username.value, password.value)
     }
+    setTimeout(() => {
+      props.clearAlert()
+    }, 3000)
   }
 
   return (
-    <div className="container">
-      <Notification notification={notification}/>
-      <div className="login">
-        <p className="login-title">Your Staff</p>
-        <LoginForm md="auto"
-          username={username}
-          password={password}
-          handleSubmit={handleLogin}/>
-      </div>
-    </div>
+    <>
+      {props.authentication.loggedIn ?
+        <Redirect to="/"/> :
+        <div className="container">
+          { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+          <div className="login">
+            <p className="login-title">Your Staff</p>
+            <LoginForm md="auto"
+              username={username}
+              password={password}
+              handleSubmit={handleLogin}
+              authentication={props.authentication}/>
+          </div>
+        </div>
+      }
+    </>
   )
+}
+
+const mapStateToProps = (state) => {
+  return {
+    authentication : state.authentication,
+    alert: state.alert
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     login: (user) => {
       dispatch(loginAction(user))
+    },
+    loginAction: (username, password) => {
+      dispatch(userAction.login(username,password))
+    },
+    clearAlert: () => {
+      dispatch(alertAction.clear())
     }
   }
 }
-export default connect(null, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

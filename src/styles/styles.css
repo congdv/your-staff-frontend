@@ -64,3 +64,17 @@ table td, table th {
 .profile:hover {
   text-decoration: none;
 }
+
+.updateUser {
+  padding-top: 50px;
+}
+.brandNav {
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #1A263A;
+}
+.brandNav a:hover {
+  text-decoration: none;
+  color: #9AC4F8;
+}

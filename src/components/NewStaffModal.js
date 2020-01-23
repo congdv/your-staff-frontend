@@ -4,8 +4,8 @@ import { connect } from "react-redux"
 import { useField, useDate } from "../hooks"
 
 
-import { newStaffAction } from "../reducers/staffReducer"
 import NewStaffForm from "./NewStaffForm"
+import staffAction from "../actions/staff.action"
 
 const NewStaffModal = (props) => {
   const [show, setShow] = useState(false)
@@ -25,11 +25,12 @@ const NewStaffModal = (props) => {
     const newStaff = {
       firstName: firstName.value,
       lastName: lastName.value,
-      employmentStartDate: selectedDate.date
+      employmentStartDate: selectedDate.date,
+      percentageIncome: Number(percent.value)
     }
     try {
 
-      props.addNewStaff(newStaff)
+      props.addStaff(newStaff)
       firstName.reset()
       lastName.reset()
       handleClose()
@@ -67,8 +68,8 @@ const NewStaffModal = (props) => {
 }
 const mapDispatchToPros = (dispatch) => {
   return {
-    addNewStaff: (newStaff) => {
-      dispatch(newStaffAction(newStaff))
+    addStaff: (staff) => {
+      dispatch(staffAction.addStaff(staff))
     }
   }
 }

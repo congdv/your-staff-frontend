@@ -7,11 +7,17 @@ import staffReducer from "./reducers/staffReducer"
 import currentDateReducer from "./reducers/selectedDateReducer"
 import currentWeekReducer from "./reducers/selectedWeekReducer"
 import incomeTotalReducer from "./reducers/incomeTotalReducer"
+import { authentication } from "./reducers/authentication.reducer"
+import { alert } from "./reducers/alert.reducer"
+import { staffs } from "./reducers/staff.reducer"
 
 
 const appReducers = combineReducers({
+  alert,
+  authentication,
   user: loginReducer,
   staff: staffReducer,
+  staffs, // latest one
   date: currentDateReducer,
   week: currentWeekReducer,
   totals: incomeTotalReducer

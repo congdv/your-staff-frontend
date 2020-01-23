@@ -5,6 +5,7 @@ import { FaEdit } from "react-icons/fa"
 
 import { updateIncomeOfStaffAction, addNewIncomeOfStaffAction } from "../reducers/staffReducer"
 import { updateIncomesTotalLocalAction } from "../reducers/incomeTotalReducer"
+import incomeAction from "../reducers/income.reducer"
 
 const AmountsTable = (props) => {
   const removeAmount = (index) => {
@@ -49,7 +50,7 @@ const IncomeModal = (props) => {
 
   useEffect(() => setAmounts(props.amounts),[props.amounts])
   const addAmount = () => {
-    if(isNaN(amount) || amount === ""){
+    if(isNaN(amount) || amount === "" || Number(amount) <= 0){
       setValidated(true)
       return
     }
@@ -144,6 +145,9 @@ const mapDispatchToPros = (dispatch) => {
     },
     updateTotalIncomes: (staff, amount,date) => {
       dispatch(updateIncomesTotalLocalAction(staff, amount, date))
+    },
+    addIncome: (id, data) => {
+      dispatch(incomeAction.addIncome(id,data))
     }
   }
 }
