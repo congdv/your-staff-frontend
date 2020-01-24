@@ -46,7 +46,7 @@ const updateIncomeOfStaff = (staffs, newIncomeOfDay) => {
   return newStaffs
 }
 
-export const staffs = (state=[], action) => {
+export const staffs = (state={}, action) => {
   switch(action.type) {
   //Fetch staffs list
   case staffConstants.FETCH_REQUEST:

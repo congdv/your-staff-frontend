@@ -6,8 +6,7 @@ import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa"
 
 import { selectingDateAction } from "../reducers/selectedDateReducer"
 import { selectingWeekAction } from "../reducers/selectedWeekReducer"
-import { updateDisplayStaffsAction } from "../reducers/staffReducer"
-import { updateIncomesTotalAction } from "../reducers/incomeTotalReducer"
+import staffAction from "../actions/staff.action"
 import { Button } from "react-bootstrap"
 import moment from "moment"
 
@@ -18,9 +17,7 @@ const DateOfWeek = (props) => {
     setStartDate(date)
     props.selectWeek(date)
     props.selectDate(date)
-    props.fetchedStaffs(date)
-    props.updateTotalIncomes(date)
-
+    props.updateStaffs(date)
   }
   const previousWeek = () => {
     const day = moment(startDate).subtract(7,"days")
@@ -59,11 +56,9 @@ const mapDispatchToPros = (dispatch) => {
     selectWeek: (date) => {
       dispatch(selectingWeekAction(date))
     },
-    fetchedStaffs: (date) => {
-      dispatch(updateDisplayStaffsAction(date))
-    },
-    updateTotalIncomes: (date) => {
-      dispatch(updateIncomesTotalAction(date))
+    updateStaffs: (date,staffs) => {
+      dispatch(staffAction.getStaffs(date, staffs))
+
     }
   }
 }

@@ -7,9 +7,9 @@ import moment from "moment"
 const request = (staffs,type=staffConstants.FETCH_REQUEST) => { return { type, staffs }}
 const success = (staffs,type=staffConstants.FETCH_SUCCESS) => { return { type, staffs }}
 const failure = (error, type=staffConstants.FETCH_FAILURE) => { return { type, error }}
-const getStaffs = (currentDate, staffs) => {
+const getStaffs = (currentDate) => {
   return async dispatch => {
-    dispatch(request(staffs))
+    dispatch(request([]))
     try {
       const week = {
         fromDate: moment(currentDate).startOf("isoWeek").toDate(),
@@ -17,7 +17,6 @@ const getStaffs = (currentDate, staffs) => {
       }
       const staffs = await staffService.getAllStaffInDateRange(week)
       dispatch(success(staffs))
-      console.log(staffs,"---")
     } catch (exception) {
       console.log(exception.error)
       dispatch(failure(exception.error))

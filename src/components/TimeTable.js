@@ -6,6 +6,7 @@ import moment from "moment"
 
 import IncomeModal from "./IncomeModal"
 import staffAction from "../actions/staff.action"
+
 const getIncomeOfDay = (day, incomeOfDays,staff) => {
   let total = "$0"
   let amounts = []
@@ -32,7 +33,7 @@ const TimeTable = (props) => {
   const { staffs } = props
   console.log(staffs,"timetable")
   const hook = () => {
-    props.getStaffs(props.date,[])
+    props.getStaffs(props.date)
   }
   useEffect(hook,[])
 
@@ -144,8 +145,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    getStaffs: (date, staffs) => {
-      dispatch(staffAction.getStaffs(date, staffs))
+    getStaffs: (date) => {
+      dispatch(staffAction.getStaffs(date))
     }
   }
 }

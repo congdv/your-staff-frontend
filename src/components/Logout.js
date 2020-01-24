@@ -4,13 +4,11 @@ import { connect } from "react-redux"
 import userAction from "../actions/user.action"
 
 
-import { loginAction, logoutAction } from "../reducers/loginReducer"
 
 const Logout = (props) => {
   const handleLogout = (event) => {
     event.preventDefault()
     window.localStorage.removeItem("userToken")
-    props.login(null)
     props.logout()
   }
 
@@ -21,13 +19,7 @@ const Logout = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (user) => {
-      dispatch(loginAction(user))
-    },
     logout: () => {
-      dispatch(logoutAction())
-    },
-    userLogout: () => {
       dispatch(userAction.logout())
     }
   }

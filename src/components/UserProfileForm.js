@@ -1,47 +1,25 @@
-import React, { useState, useEffect, useRef } from "react"
+import React from "react"
 import { Form, Button } from "react-bootstrap"
 import { connect } from "react-redux"
 import { useField } from "../hooks"
-import { updateAction }  from "../reducers/loginReducer"
 import userAction from "../actions/user.action"
 import alertAction from "../actions/alert.action"
 
-const notify = (message, type, setNotification) => {
-  setNotification({ message,type })
-  setTimeout(() => {
-    setNotification({ message: undefined, type: undefined })
-  }, 3000)
-}
-const useInMounted = () => {
-  const isMounted = useRef(false)
-  useEffect(() => {
-    isMounted.current = true
-    return () => (isMounted.current = false)
-  },[isMounted])
-  return isMounted
-}
 
 const UserProfileForm = (props) => {
   const name = useField("text",props.user.name)
   const oldPassword = useField("password")
   const newPassword = useField("password")
   const confirmationPassword = useField("password")
-  const [user, setUser] = useState(props.user)
-  const [notification, setNotification] = useState({ message: undefined, type: undefined })
   const { alert } = props
-
-  const isMounted = useInMounted()
-  const hook = () => {
-    if(isMounted.current){
-      props.updateUser(user)
-    }
-  }
-  useEffect(hook ,[])
 
   const handleOnSubmit = async (event) => {
     event.preventDefault()
     if(newPassword.value !== confirmationPassword.value) {
-      notify("The new password and confirmation password are not match","danger",(value) => setNotification(value))
+      props.errorAlert("The new password and confirmation password are not match")
+      setTimeout(() => {
+        props.clearAlert()
+      }, 3000)
       return
     }
     try {
@@ -55,8 +33,9 @@ const UserProfileForm = (props) => {
       oldPassword.reset()
       newPassword.reset()
       confirmationPassword.reset()
+      props.successAlert("Successfully update your information")
     } catch(exception) {
-      notify(exception.error,"danger",(value) => setNotification(value))
+      props.errorAlert(exception.error)
     }
     setTimeout(() => {
       props.clearAlert()
@@ -99,15 +78,17 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUser: (user) => {
-      dispatch(updateAction(user))
-    },
     update: (props) => {
-      console.log(props)
       dispatch(userAction.update(props))
     },
     clearAlert: () => {
       dispatch(alertAction.clear())
+    },
+    errorAlert: (message) => {
+      dispatch(alertAction.error(message))
+    },
+    successAlert: (message) => {
+      dispatch(alertAction.success(message))
     }
   }
 }

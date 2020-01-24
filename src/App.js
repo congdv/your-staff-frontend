@@ -1,34 +1,22 @@
-import React, { useEffect } from "react"
-import { connect } from "react-redux"
+import React from "react"
 
 import Login from "./components/Login"
 
-import { loginAction } from "./reducers/loginReducer"
-import { getAllActiveStaffsAction } from "./reducers/staffReducer"
 
 import { history } from "./helpers/history"
 import { Router, Switch, Route, Redirect } from "react-router-dom"
 import { PrivateRoute } from "./components/PrivateRoute"
 import HomePage from "./Pages/Home/HomePage"
 import ProfilePage from "./Pages/Profile/ProfilePage"
+import Employees from "./Pages/Employees/Employees"
 
-
-const App = (props) => {
-  const hook = () => {
-    const loggedUserJSON = window.localStorage.getItem("userToken")
-    if(loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      props.login(user)
-    }
-  }
-
-  useEffect(hook ,[])
-  console.log(props)
+const App = () => {
   return (
     <div>
       <Router history={history}>
         <Switch>
           <PrivateRoute exact path="/" component={HomePage}/>
+          <PrivateRoute exact path="/employees" component={Employees}/>
           <PrivateRoute path="/profile" component={ProfilePage}/>
           <Route path="/login" component={Login} />
           <Redirect from="*" to="/" />
@@ -37,22 +25,6 @@ const App = (props) => {
     </div>
   )
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    authentication: state.authentication
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    allActiveStaffs : () => {
-      dispatch(getAllActiveStaffsAction())
-    },
-    login: (user) => {
-      dispatch(loginAction(user))
-    }
-  }
-}
 
-export default connect(mapStateToProps,mapDispatchToProps)(App)
+export default App

@@ -1,9 +1,8 @@
-import React,{ useState } from "react"
+import React from "react"
 import { connect } from "react-redux"
 
 import LoginForm from "./LoginForm"
 import { useField } from "../hooks"
-import { loginAction } from "../reducers/loginReducer"
 
 import userAction from "../actions/user.action"
 import alertAction from "../actions/alert.action"
@@ -17,7 +16,7 @@ const Login = (props) => {
   const handleLogin = async(event) => {
     event.preventDefault()
     if(username && password) {
-      props.loginAction(username.value, password.value)
+      props.login(username.value, password.value)
     }
     setTimeout(() => {
       props.clearAlert()
@@ -53,10 +52,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (user) => {
-      dispatch(loginAction(user))
-    },
-    loginAction: (username, password) => {
+    login: (username, password) => {
       dispatch(userAction.login(username,password))
     },
     clearAlert: () => {
