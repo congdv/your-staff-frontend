@@ -2,7 +2,7 @@ import React from "react"
 import { NavDropdown } from "react-bootstrap"
 import { connect } from "react-redux"
 import userAction from "../actions/user.action"
-
+import { history } from "../helpers/history"
 
 
 const Logout = (props) => {
@@ -10,6 +10,7 @@ const Logout = (props) => {
     event.preventDefault()
     window.localStorage.removeItem("userToken")
     props.logout()
+    history.push("/login")
   }
 
   return (

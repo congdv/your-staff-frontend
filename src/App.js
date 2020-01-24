@@ -9,6 +9,7 @@ import { PrivateRoute } from "./components/PrivateRoute"
 import HomePage from "./Pages/Home/HomePage"
 import ProfilePage from "./Pages/Profile/ProfilePage"
 import Employees from "./Pages/Employees/Employees"
+import { connect } from "react-redux"
 
 const App = () => {
   return (
@@ -26,5 +27,12 @@ const App = () => {
   )
 }
 
+const mapStateToProps = (state) => {
+  const { user } = state.authentication
+  return {
+    user
+  }
+}
 
-export default App
+
+export default connect(mapStateToProps)(App)

@@ -7,7 +7,6 @@ const fetchEmployees = () => {
     dispatch({ type: employeeConstants.FETCH_REQUEST })
     try {
       const employees = await staffService.getAll()
-      console.log(employees,"employees")
       dispatch({
         type:employeeConstants.FETCH_SUCCESS,
         employees
@@ -25,14 +24,17 @@ const fetchEmployees = () => {
 
 const deactiveEmployee = (id) => {
   return async dispatch => {
-    dispatch({ type: employeeConstants.DEACTIVE_REQUEST })
+    dispatch(
+      {
+        type: employeeConstants.DEACTIVE_REQUEST,
+        employeeID: id
+      })
     try {
       const deactivedEmployee = await staffService.deactiveStaff(id)
       dispatch({
         type: employeeConstants.DEACTIVE_SUCCESS,
         deactivedEmployee
       })
-      console.log(deactivedEmployee,"deactiveemployee")
     } catch (exception) {
       console.log(exception.error)
       dispatch({
@@ -46,14 +48,17 @@ const deactiveEmployee = (id) => {
 
 const activeEmployee = (id) => {
   return async dispatch => {
-    dispatch({ type: employeeConstants.ACTIVE_REQUEST })
+    dispatch(
+      {
+        type: employeeConstants.ACTIVE_REQUEST,
+        employeeID: id
+      })
     try {
       const activedEmployee = await staffService.activeStaff(id)
       dispatch({
         type: employeeConstants.ACTIVE_SUCCESS,
         activedEmployee
       })
-      console.log(activedEmployee,"activedEmployee")
     } catch (exception) {
       console.log(exception.error)
       dispatch({

@@ -11,7 +11,7 @@ const NavBar = (props) => {
     <Navbar bg="light" expand="lg">
       <div className="container">
         <Navbar.Text className="brandNav"><Link to="/">Your Staff</Link></Navbar.Text>
-        <NavDropdown title={`${user.name}`} id="nav-dropdown">
+        <NavDropdown title={`${user ? user.name: ""}`} id="nav-dropdown">
           <NavDropdown.Item as={Link} to="/profile">Your Profile</NavDropdown.Item>
           <NavDropdown.Divider/>
           <Logout/>

@@ -12,5 +12,5 @@ export const userConstants = {
   UPDATE_FAILURE: "USER_UPDATE_FAILURE",
 
   LOGOUT: "USER_LOGOUT",
-
+  GLOBAL_LOGOUT:"GLOBAL_LOGOUT"
 }

@@ -25,7 +25,6 @@ const login = (username, password) => {
 }
 
 const update = (props) => {
-  console.log("update ", props)
   return async dispatch => {
     const {
       username,
@@ -53,7 +52,10 @@ const update = (props) => {
 }
 
 const logout = () => {
-  return { type: userConstants.LOGOUT }
+  return async dispatch => {
+    dispatch({ type: userConstants.LOGOUT })
+    dispatch({ type: userConstants.GLOBAL_LOGOUT })
+  }
 }
 
 export default { login, logout, update }

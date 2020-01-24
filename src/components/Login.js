@@ -12,7 +12,6 @@ const Login = (props) => {
   const username = useField("text")
   const password = useField("password")
   const { alert } = props
-  console.log(props.authentication)
   const handleLogin = async(event) => {
     event.preventDefault()
     if(username && password) {

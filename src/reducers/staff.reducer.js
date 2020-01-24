@@ -55,7 +55,6 @@ export const staffs = (state={}, action) => {
       data: action.staffs
     }
   case staffConstants.FETCH_SUCCESS:
-    console.log(action)
     return {
       isFetched: true,
       data: action.staffs

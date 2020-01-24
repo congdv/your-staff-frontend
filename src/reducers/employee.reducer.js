@@ -20,6 +20,7 @@ export const employees = (state={}, action) => {
   case employeeConstants.DEACTIVE_REQUEST:
     return {
       isDeactiving: true,
+      employeeID: action.employeeID,
       ...state
     }
   case employeeConstants.DEACTIVE_SUCCESS:
@@ -36,6 +37,7 @@ export const employees = (state={}, action) => {
   case employeeConstants.ACTIVE_REQUEST:
     return {
       isActiving: true,
+      employeeID: action.employeeID,
       ...state
     }
   case employeeConstants.ACTIVE_SUCCESS:

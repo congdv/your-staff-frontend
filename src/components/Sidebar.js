@@ -1,5 +1,5 @@
 import React from "react"
-import { FaHome, FaUserFriends, FaChartBar } from "react-icons/fa"
+import { FaHome, FaUserFriends } from "react-icons/fa"
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav"
 import "@trendmicro/react-sidenav/dist/react-sidenav.css"
 import { history } from "../helpers/history"
@@ -16,7 +16,6 @@ const Sidebar = () => {
       }}>
       <SideNav.Toggle />
       <SideNav.Nav onSelect={(selected) => {
-        console.log(selected)
         selectedValue = selected
       }}>
         <NavItem eventKey="" active={selectedValue === "" ? true : false}>
