@@ -10,7 +10,7 @@ const Logout = (props) => {
     event.preventDefault()
     window.localStorage.removeItem("userToken")
     props.logout()
-    history.push("/login")
+    history.push("/")
   }
 
   return (
