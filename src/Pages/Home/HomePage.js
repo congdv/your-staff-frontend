@@ -1,7 +1,7 @@
 import React from "react"
 import NavBar from "../../components/NavBar"
 import TimeTable from "../../components/TimeTable"
-import NewStaffModal from "../../components/NewStaffModal"
+import StaffModal from "../../components/StaffModal"
 import DateOfWeek from "../../components/DateOfWeek"
 import Sidebar from "../../components/Sidebar"
 
@@ -12,7 +12,7 @@ const HomePage = () => {
       <Sidebar/>
       <div className="container">
         <div className="statusBar">
-          <NewStaffModal/>
+          <StaffModal/>
           <DateOfWeek/>
         </div>
         <TimeTable/>

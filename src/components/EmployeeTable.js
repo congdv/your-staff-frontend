@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import { Table, Button } from "react-bootstrap"
 import { connect } from "react-redux"
 import moment from "moment"
+import StaffModal from "./StaffModal"
 
 import employeeAction from "../actions/employee.action"
 
@@ -20,6 +21,9 @@ const EmployeeTable = (props) => {
   const active = (id) => {
     props.activeEmployee(id)
   }
+  const deleteStaff = (id) => {
+    props.deleteEmployee(id)
+  }
   return (
     <div className="container">
       <Table>
@@ -30,49 +34,58 @@ const EmployeeTable = (props) => {
             <th>Employment End Date</th>
             <th>Status</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {employees.data.map(
-            staff =>
-              <tr key={staff._id}>
-                <td>{staff.firstName + " " +staff.lastName}</td>
-                <td>{moment(staff.employmentStartDate).toDate().toDateString()}</td>
-                <td>
+            employee =>
+              <tr key={employee._id}>
+                <td><StaffModal isUpdating={true} employee={employee}/></td>
+                <td style={{ paddingTop:"22px" }}>{moment(employee.employmentStartDate).toDate().toDateString()}</td>
+                <td style={{ paddingTop:"22px" }}>
                   {
-                    !staff.isActive
-                      ? moment(staff.employmentEndDate).toDate().toDateString()
+                    !employee.isActive
+                      ? moment(employee.employmentEndDate).toDate().toDateString()
                       : ""
                   }</td>
                 {
-                  staff.isActive
+                  employee.isActive
                     ? <>
-                      <td>Working</td>
+                      <td style={{ paddingTop:"22px" }}>Working</td>
                       <td>
                         <span>
                           {
-                            (employees.isDeactiving || employees.isActiving) && employees.employeeID === staff.id &&
+                            (employees.isDeactiving || employees.isActiving) && employees.employeeID === employee.id &&
                             <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
                               style={{ margin: "5px auto" }} alt="loading"/>
                           }
                         </span>
-                        <Button style={{ float: "right" }} variant="danger" onClick={() => deactive(staff.id)}>Deactive</Button>
+                        <Button style={{ float: "right" }} variant="danger" onClick={() => deactive(employee.id)}>Deactive</Button>
                       </td>
                     </>
                     : <>
-                      <td>Not Working</td>
+                      <td style={{ paddingTop:"22px" }} >Not Working</td>
                       <td>
                         <span>
                           {
-                            (employees.isDeactiving || employees.isActiving) && employees.employeeID === staff.id &&
+                            (employees.isDeactiving || employees.isActiving) && employees.employeeID === employee.id &&
                             <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
                               style={{ margin: "5px auto" }} alt="loading"/>
                           }
                         </span>
-                        <Button style={{ float: "right" }} variant="primary" onClick={() => active(staff.id)}>Active</Button>
+                        <Button style={{ float: "right" }} variant="primary" onClick={() => active(employee.id)}>Active</Button>
                       </td>
                     </>
                 }
+                <td>
+                  {
+                    employees.isDeleting && employees.employeeID === employee.id &&
+                    <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                      style={{ margin: "5px auto" }} alt="loading"/>
+                  }
+                  <Button style={{ float: "right" }} variant="danger" onClick={() => deleteStaff(employee.id)}>Delete</Button>
+                </td>
               </tr>
           )}
         </tbody>
@@ -115,6 +128,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     activeEmployee: (id) => {
       dispatch(employeeAction.activeEmployee(id))
+    },
+    deleteEmployee: (id) => {
+      dispatch(employeeAction.deleteEmployee(id))
     }
   }
 }

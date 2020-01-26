@@ -19,14 +19,18 @@ export const useField = (type , valueDefault="") => {
   }
 }
 
-export const useDate = () => {
-  const [date, setDate] = useState(new Date())
+export const useDate = (defaultDate=new Date()) => {
+  const [date, setDate] = useState(defaultDate)
 
   const selectingDate = (date) => {
     setDate(date)
   }
+  const reset = () => {
+    setDate(new Date())
+  }
   return {
     date,
-    selectingDate
+    selectingDate,
+    reset
   }
 }

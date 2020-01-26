@@ -52,6 +52,22 @@ const TimeTable = (props) => {
     return total
   }
 
+  const getGrossPay = (staff, week) => {
+    const GROSS_PAY_PERCENT = 0.6
+    let total = getTotalFrom(staff,week)
+    if(total <= 0) {
+      return 0
+    }
+
+    let percentageIncome = GROSS_PAY_PERCENT
+    if(staff.percentageIncome) {
+      percentageIncome = staff.percentageIncome / 100.0
+
+    }
+    total = (total * percentageIncome)
+    return Math.round(total)
+  }
+
   return (
     <div className="mt-3">
       <Table bordered responsive >
@@ -67,6 +83,7 @@ const TimeTable = (props) => {
               )
             }
             <th>Total Incomes</th>
+            <th>Gross Pay</th>
           </tr>
         </thead>
         <tbody>
@@ -93,6 +110,12 @@ const TimeTable = (props) => {
                   <td> $
                     {
                       getTotalFrom(staff,props.week)
+                    }
+                  </td>
+                  <td>
+                    $
+                    {
+                      getGrossPay(staff,props.week)
                     }
                   </td>
                 </tr>

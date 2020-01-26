@@ -3,7 +3,7 @@ import { Form, Button,InputGroup } from "react-bootstrap"
 import DatePicker from "react-datepicker"
 
 
-const StaffForm = ({ firstName, lastName, handleSubmit, handleClose, selectedDate, percent, validated }) => {
+const StaffForm = ({ firstName, lastName, handleSubmit, handleClose, selectedDate, percent, validated, isUpdating }) => {
   return (
     <>
       <Form onSubmit={handleSubmit} noValidate validated={validated}>
@@ -56,7 +56,7 @@ const StaffForm = ({ firstName, lastName, handleSubmit, handleClose, selectedDat
         <Form.Group>
           <div className="float-right">
             <Button onClick={handleClose} className="mr-3"> Cancel</Button>
-            <Button type="submit">Create</Button>
+            <Button type="submit">{ isUpdating ? "Update" : "Create" }</Button>
           </div>
         </Form.Group>
       </Form>

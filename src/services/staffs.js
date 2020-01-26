@@ -12,7 +12,6 @@ const getAll = async () => {
   return response.data
 }
 const getAllActiveStaffs = async() => {
-  console.log(authHeader())
   const config = {
     headers: authHeader()
   }
@@ -51,5 +50,25 @@ const activeStaff = async (id) => {
   return response.data
 }
 
+const deleteStaff = async(id) => {
+  const config = {
+    headers: authHeader()
+  }
+  const response = await axios.delete(`${baseURL}/${id}`,config)
+  return response.data
+}
 
-export default { getAll, getAllActiveStaffs, create, getAllStaffInDateRange, deactiveStaff, activeStaff }
+const updateStaff = async(staff) => {
+  const config = {
+    headers: authHeader()
+  }
+  try {
+    const response = await axios.put(baseURL,staff,config)
+    return response.data
+  } catch(error) {
+    throw error.response.data
+  }
+}
+
+
+export default { getAll, getAllActiveStaffs, create, getAllStaffInDateRange, deactiveStaff, activeStaff, deleteStaff,updateStaff }

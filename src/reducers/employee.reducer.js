@@ -49,6 +49,38 @@ export const employees = (state={}, action) => {
     return {
       ...state
     }
+
+  case employeeConstants.DELETE_REQUEST:
+    return {
+      isDeleting: true,
+      employeeID: action.employeeID,
+      ...state
+    }
+  case employeeConstants.DELETE_SUCCESS:
+    return {
+      isDeleted: true,
+      data: state.data.filter(employee => employee.id !== action.deletedEmployee.id)
+    }
+  case employeeConstants.DELETE_FAILURE:
+    return {
+      ...state
+    }
+
+  // update employee
+  case employeeConstants.UPDATE_REQUEST:
+    return {
+      isUpdating:true,
+      data: state.data
+    }
+  case employeeConstants.UPDATE_SUCCESS:
+    return {
+      isUpdated: true,
+      data: state.data.filter(employee => employee.id !== action.updatedEmployee.id).concat(action.updatedEmployee)
+    }
+  case employeeConstants.UPDATE_FAILURE:
+    return {
+      ...state
+    }
   default:
     return state
   }

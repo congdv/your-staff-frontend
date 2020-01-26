@@ -95,6 +95,7 @@ export const staffs = (state={}, action) => {
     return {
       ...state
     }
+
     // add income of staffs
   case incomeConstants.REMOVE_REQUEST:
     return {
@@ -110,6 +111,7 @@ export const staffs = (state={}, action) => {
     return {
       ...state
     }
+
   default:
     return state
   }

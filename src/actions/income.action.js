@@ -9,7 +9,6 @@ const addIncome = (id, data) => {
     })
     try {
       const addedIncome = await incomeService.create(id,data)
-      console.log(addedIncome,"addedIncome")
       dispatch({
         type: incomeConstants.ADD_SUCCESS,
         data: addedIncome
@@ -32,7 +31,6 @@ const removeIncome = (id, data) => {
     })
     try {
       const removedIncome = await incomeService.update(id,data)
-      console.log(removedIncome,"removedIncome")
       dispatch({
         type: incomeConstants.REMOVE_SUCCESS,
         data: removedIncome

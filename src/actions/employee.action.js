@@ -70,4 +70,55 @@ const activeEmployee = (id) => {
   }
 }
 
-export default { fetchEmployees,deactiveEmployee, activeEmployee }
+
+const deleteEmployee = (id) => {
+  return async dispatch => {
+    dispatch (
+      {
+        type: employeeConstants.DELETE_REQUEST,
+        employeeID: id
+      }
+    )
+    try {
+      const deletedEmployee = await staffService.deleteStaff(id)
+      dispatch({
+        type: employeeConstants.DELETE_SUCCESS,
+        deletedEmployee
+      })
+    }catch (exception) {
+      console.log(exception)
+      dispatch({
+        type: employeeConstants.DELETE_FAILURE,
+        error: exception.error
+      })
+      dispatch(alertAction.error(exception.error))
+    }
+  }
+}
+
+const updateEmployee = (staff) => {
+  return async dispatch => {
+    dispatch({
+      type: employeeConstants.UPDATE_REQUEST,
+    })
+    try {
+      const updatedEmployee = await staffService.updateStaff(staff)
+      dispatch(
+        {
+          type: employeeConstants.UPDATE_SUCCESS,
+          updatedEmployee
+        }
+      )
+      console.log(updatedEmployee,"updatedEmployee")
+    }catch (exception) {
+      console.log(exception)
+      dispatch( {
+        type: employeeConstants.UPDATE_FAILURE,
+        error: exception.error
+      })
+      dispatch(alertAction.error(exception.error))
+    }
+  }
+}
+
+export default { fetchEmployees,deactiveEmployee, activeEmployee, deleteEmployee, updateEmployee }

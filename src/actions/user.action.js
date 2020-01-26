@@ -14,7 +14,6 @@ const login = (username, password) => {
       window.localStorage.setItem("userToken", JSON.stringify(user))
       dispatch(success(user))
       history.push("/")
-      console.log(user)
     }catch(exception) {
       console.log(exception.error)
       dispatch(failure(exception.error))
