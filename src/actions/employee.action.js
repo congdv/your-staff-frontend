@@ -109,7 +109,6 @@ const updateEmployee = (staff) => {
           updatedEmployee
         }
       )
-      console.log(updatedEmployee,"updatedEmployee")
     }catch (exception) {
       console.log(exception)
       dispatch( {
