@@ -8,7 +8,6 @@ import { authentication } from "./reducers/authentication.reducer"
 import { alert } from "./reducers/alert.reducer"
 import { staffs } from "./reducers/staff.reducer"
 import { employees } from "./reducers/employee.reducer"
-import { userConstants } from "./constants/user.constants"
 
 
 const appReducers = combineReducers({
@@ -21,9 +20,6 @@ const appReducers = combineReducers({
 })
 
 const rootReducers = (state, action) => {
-  if (action.type === userConstants.GLOBAL_LOGOUT) {
-    state = undefined
-  }
   return appReducers(state, action)
 }
 

@@ -53,7 +53,7 @@ const update = (props) => {
 const logout = () => {
   return async dispatch => {
     dispatch({ type: userConstants.LOGOUT })
-    dispatch({ type: userConstants.GLOBAL_LOGOUT })
+    window.localStorage.removeItem("userToken")
   }
 }
 
