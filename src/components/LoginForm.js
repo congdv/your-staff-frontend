@@ -8,7 +8,7 @@ const LoginForm = ({
   authentication
 }) => {
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} horizontal>
       <Form.Group>
         <Form.Label>Username:</Form.Label>
         <Form.Control value={username.value}

@@ -1,14 +1,13 @@
 import React from "react"
 import NavBar from "../../components/NavBar"
-import Sidebar from "../../components/Sidebar"
 import EmployeeTable from "../../components/EmployeeTable"
 import { connect } from "react-redux"
+import { Main } from '../../AppStyles';
 
 const Employees = (props) => {
   return (
-    <div>
+    <Main>
       <NavBar/>
-      <Sidebar/>
       <div className="container">
         <div className="statusBar">
           <EmployeeTable/>
@@ -20,7 +19,7 @@ const Employees = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </Main>
   )
 }
 const mapStateToProps = (state) => {
